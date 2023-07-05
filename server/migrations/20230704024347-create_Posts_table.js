@@ -3,7 +3,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('Posts', {
-      id: {
+      post_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
@@ -17,19 +17,26 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      post_img: {
-        type: Sequelize.BLOB,
-        allowNull: true,
-      },
-
       users_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Users',
-          key: 'id',
+          key: 'user_id',
         },
         onDelete: 'CASCADE',
+      },
+      createdAt: {
+        // createdAt 컬럼 추가
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+      },
+      updatedAt: {
+        // updatedAt 컬럼 추가
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
     });
   },

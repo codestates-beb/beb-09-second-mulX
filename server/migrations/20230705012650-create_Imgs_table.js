@@ -2,13 +2,16 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Nfts', {
-      nft_id: {
+    await queryInterface.createTable('Imgs', {
+      img_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
+      profile_img: Sequelize.STRING,
+      user_img: Sequelize.STRING,
+      post_id: Sequelize.INTEGER,
       user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -18,12 +21,10 @@ module.exports = {
         },
         onDelete: 'CASCADE',
       },
-      token_id: Sequelize.INTEGER,
-      txhash: Sequelize.STRING,
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Nfts');
+    await queryInterface.dropTable('Imgs');
   },
 };

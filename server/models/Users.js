@@ -5,31 +5,31 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
     static associate(models) {
-      // Users.belongsTo(models.Posts, {
-      //   foreignKey: 'user_id',
-      //   as: 'posts',
-      // });
-      // Users.belongsTo(models.Nfts, {
-      //   foreignKey: 'user_id',
-      //   as: 'NFTs',
-      // });
+      Users.hasMany(models.Posts, { foreignKey: 'user_id' });
+      Users.hasMany(models.Nfts, { foreignKey: 'user_id' });
+      Users.hasMany(models.Imgs, { foreignKey: 'user_id' });
     }
   }
   Users.init(
     {
-      id: {
+      user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      user_id: DataTypes.STRING,
+      email: DataTypes.STRING,
       nickname: DataTypes.STRING,
       password: DataTypes.STRING,
       address: DataTypes.STRING,
-      token_amount: DataTypes.INTEGER,
-      eth_amount: DataTypes.INTEGER,
-      profile_img: DataTypes.BLOB,
+      token_amount: {
+        type: DataTypes.FLOAT,
+        defaultValue: 0,
+      },
+      eth_amount: {
+        type: DataTypes.FLOAT,
+        defaultValue: 0,
+      },
     },
     {
       sequelize,

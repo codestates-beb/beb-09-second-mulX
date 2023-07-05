@@ -1,7 +1,9 @@
 'use strict';
+
 const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
-  class Post extends Model {
+  class Nfts extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,37 +11,28 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Post.belongsTo(models.Users, {
+      Nfts.belongsTo(models.Users, {
         foreignKey: { name: 'users_id', allowNull: false },
         onDelete: 'CASCADE',
       });
     }
   }
-  Post.init(
+  Nfts.init(
     {
-      id: {
+      nft_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
-      title: DataTypes.STRING,
-      content: DataTypes.STRING,
-      post_img: DataTypes.BLOB,
-      users_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        onDelete: 'CASCADE',
-        references: {
-          model: 'Users',
-          key: 'id',
-        },
-      },
+      user_id: DataTypes.INTEGER,
+      token_id: DataTypes.INTEGER,
+      txhash: DataTypes.STRING,
     },
     {
       sequelize,
-      modelName: 'Post',
+      modelName: 'Nfts',
     }
   );
-  return Post;
+  return Nfts;
 };
