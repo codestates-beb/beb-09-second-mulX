@@ -1,0 +1,25 @@
+/* Header.css */
+.headerContainer {
+    display: flex;
+  }
+  
+  .logo {
+    /* Add your logo styles here */
+  }
+  
+  .menu {
+    display: flex;
+  }
+  
+  .menu div {
+    /* Add your menu item styles here */
+  }
+  
+  .auth {
+    display: flex;
+  }
+  
+  .auth div {
+    /* Add your authentication item styles here */
+  }
+  
