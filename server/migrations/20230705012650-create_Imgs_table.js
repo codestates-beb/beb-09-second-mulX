@@ -10,7 +10,7 @@ module.exports = {
         primaryKey: true,
       },
       profile_img: Sequelize.STRING,
-      user_img: Sequelize.STRING,
+      post_img: Sequelize.STRING,
       post_id: Sequelize.INTEGER,
       user_id: {
         type: Sequelize.INTEGER,

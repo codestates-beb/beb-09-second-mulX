@@ -7,6 +7,8 @@ npm install -g sequelize-cli // 전역설치 후 사용
 
 env.sample -> env 환경설정
 
+MySQL 실행
+
 npx sequelize-cli db:create // MySQL database 생성 (mulX)
 npx sequelize-cli db:migrate // MySQL table update (DB Schema 반영)
 

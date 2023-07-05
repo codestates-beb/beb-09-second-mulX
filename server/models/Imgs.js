@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
       },
       profile_img: DataTypes.STRING,
+      post_img: DataTypes.STRING,
       user_id: DataTypes.INTEGER,
       post_id: DataTypes.INTEGER,
     },
