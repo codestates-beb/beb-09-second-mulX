@@ -1,0 +1,48 @@
+.signup-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20190830/pngtree-background-of-a-landscape-of-dusk-in-the-mountains-image_309828.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 10px;
+}
+
+.form-field {
+  margin-bottom: 1.5rem;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: none;
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+  color: white;
+  background-color: red;
+  border: none;
+  outline: none;
+}
+
+input[type="file"] {
+  background-color: black;
+}
