@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-image: url('https://png.pngtree.com/thumb_back/fh260/background/20190830/pngtree-background-of-a-landscape-of-dusk-in-the-mountains-image_309828.jpg');
+  background-image: url('../../assets/img/mountains-55067_640.png');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -12,37 +12,71 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
-  background-color: rgba(255, 255, 255, 0.7);
+  padding: 5rem;
+  background-color: transparent;
   border-radius: 10px;
+  width: 400px;
+  max-width: 100%;
 }
 
 .form-field {
   margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.success-message {
+  color: green;
+}
+
+.failure-message {
+  color: red;
+}
+
+.hide {
+  display: none;
+}
+
+h1,
+label {
+  color: white;
+}
+
+button {
+  width: 100%;
+  cursor: pointer;
+}
+
+input[type="text"],
+input[type="password"],
+button {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
 }
 
 input[type="text"],
 input[type="password"] {
-  width: 100%;
-  padding: 1rem;
-  border-radius: 10px;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.3);
-  border: none;
-  outline: none;
-}
-
-button {
-  cursor: pointer;
-  width: 100%;
-  padding: 1rem;
-  border-radius: 10px;
-  color: white;
-  background-color: red;
-  border: none;
-  outline: none;
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 input[type="file"] {
   background-color: black;
+}
+
+button[type="button"] {
+  color: white;
+  background-color: black;
+}
+
+button[type="submit"] {
+  color: white;
+  background-color: red;
+}
+
+.login-link a {
+  color: white;
+  text-decoration: none;
 }
