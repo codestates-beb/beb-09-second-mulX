@@ -26,8 +26,6 @@ module.exports = (sequelize, DataTypes) => {
       title: DataTypes.STRING,
       content: DataTypes.STRING,
       post_img: DataTypes.BLOB,
-      createdAt: DataTypes.DATE,
-      updatedAt: DataTypes.DATE,
       users_id: {
         type: DataTypes.INTEGER,
         allowNull: false,

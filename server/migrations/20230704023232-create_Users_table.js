@@ -11,8 +11,8 @@ module.exports = {
       },
       user_id: {
         type: Sequelize.STRING,
-        unique: true,
         allowNull: false,
+        defaultValue: 'default', // 기본값 설정
       },
       nickname: {
         type: Sequelize.STRING,
@@ -24,8 +24,8 @@ module.exports = {
       },
       address: {
         type: Sequelize.STRING,
-        unique: true,
         allowNull: false,
+        defaultValue: '0x0',
       },
       token_amount: {
         type: Sequelize.INTEGER,
@@ -37,15 +37,17 @@ module.exports = {
         allowNull: false,
         defaultValue: 0,
       },
-      created_at: {
+      createdAt: {
+        // createdAt 컬럼 추가
         type: Sequelize.DATE,
         allowNull: false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
-      updated_at: {
+      updatedAt: {
+        // updatedAt 컬럼 추가
         type: Sequelize.DATE,
         allowNull: false,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       },
     });
   },

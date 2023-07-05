@@ -21,14 +21,7 @@ module.exports = {
         type: Sequelize.BLOB,
         allowNull: true,
       },
-      createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      updatedAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
+
       users_id: {
         type: Sequelize.INTEGER,
         allowNull: false,

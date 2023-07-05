@@ -5,13 +5,14 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
     static associate(models) {
-      // define association here
-      Users.belongsTo(models.Posts, {
-        foreignKey: 'users_id',
-      });
-      Users.belongsTo(models.Nfts, {
-        foreignKey: 'users_id',
-      });
+      // Users.belongsTo(models.Posts, {
+      //   foreignKey: 'user_id',
+      //   as: 'posts',
+      // });
+      // Users.belongsTo(models.Nfts, {
+      //   foreignKey: 'user_id',
+      //   as: 'NFTs',
+      // });
     }
   }
   Users.init(
@@ -29,12 +30,11 @@ module.exports = (sequelize, DataTypes) => {
       token_amount: DataTypes.INTEGER,
       eth_amount: DataTypes.INTEGER,
       profile_img: DataTypes.BLOB,
-      createdAt: DataTypes.DATE,
-      updatedAt: DataTypes.DATE,
     },
     {
       sequelize,
       modelName: 'Users',
+      timestamps: true,
     }
   );
   return Users;

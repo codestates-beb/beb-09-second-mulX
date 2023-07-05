@@ -21,8 +21,6 @@ module.exports = (sequelize, DataTypes) => {
       token_id: DataTypes.INTEGER,
       txhash: DataTypes.STRING,
       token_uri: DataTypes.STRING,
-      createdAt: DataTypes.DATE,
-      updatedAt: DataTypes.DATE,
     },
     {
       sequelize,
