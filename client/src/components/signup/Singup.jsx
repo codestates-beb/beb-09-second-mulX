@@ -18,6 +18,7 @@ const Signup = () => {
     e.preventDefault();
     // 회원가입 처리 로직 작성
     console.log('가입 정보:', useremail, password, confirmPassword, nickname, profilePicture);
+    console.log("변경")
     // 필요한 API 호출 등을 수행할 수 있습니다.
   };
 
