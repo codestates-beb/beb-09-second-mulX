@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../../assets/css/signup.css';
+import { signUp } from '../../apis/singUp'
 
 const Signup = () => {
   const [useremail, setUseremail] = useState('');
@@ -14,11 +15,13 @@ const Signup = () => {
   const [passwordFailure, setPasswordFailure] = useState(null);
   const [confirmPasswordFailure, setConfirmPasswordFailure] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // 회원가입 처리 로직 작성
     console.log('가입 정보:', useremail, password, confirmPassword, nickname, profilePicture);
     console.log("변경")
+    const data = await signUp(useremail, nickname, password)
+    console.log(data)
     // 필요한 API 호출 등을 수행할 수 있습니다.
   };
 
