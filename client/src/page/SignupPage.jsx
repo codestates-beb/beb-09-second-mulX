@@ -1,5 +1,4 @@
-import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import Signup from '../components/signup/Singup';
 
 const SignupPage = () => {
