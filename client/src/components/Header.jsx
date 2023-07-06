@@ -3,6 +3,7 @@ import style from '../assets/css/Header.module.css'
 import { Link } from 'react-router-dom';
 
 const Header = () => {
+  //헤더 화면
   return (
     <div className={style.headerContainer}>
         <Link to="/" className={style.logo}>logo</Link>

@@ -49,6 +49,11 @@
   /* Rest of the styles */
 }
 
+.PostTitle {
+  font-size: 30px;
+
+}
+
 /* MainTitle.module.css */
 .Postimg {
   display: flex;
