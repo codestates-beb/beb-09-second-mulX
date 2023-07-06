@@ -5,6 +5,7 @@ import Main from './page/MainPage';
 import Login from './page/LoginPage';
 import Signup from './page/SignupPage';
 
+
 function App() {
   return (
     <div>
@@ -17,7 +18,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </div>
-    
+
   );
 }
 
