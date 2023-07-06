@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-image: url('../../assets/img/mountains-55067_640.png');
+  background-image: url('../img/mountains-55067_640.png');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -74,6 +74,11 @@ button[type="button"] {
 button[type="submit"] {
   color: white;
   background-color: red;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 15px;
 }
 
 .login-link a {
