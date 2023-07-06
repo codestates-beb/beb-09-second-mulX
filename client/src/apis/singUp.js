@@ -1,15 +1,18 @@
+// api.js
 import axios from 'axios';
 
-export async function signUp(email, nickname, password) {
-  try {
-    const response = await axios.post('http://localhost:8080/user/signup', {
+export function signUpAPI(email, nickname, password, callback) {
+  //@notion 콜백함수로 처리하여 err 핸들링
+  axios
+    .post('http://localhost:8080/user/signup', {
       email: email,
       nickname: nickname,
       password: password,
+    })
+    .then(response => {
+      callback(null, response.data); // 성공 시 콜백 호출
+    })
+    .catch(error => {
+      callback(error, null); // 실패 시 콜백 호출
     });
-
-    console.log('회원가입 성공:', response.data);
-  } catch (error) {
-    console.error('회원가입 실패:', error);
-  }
 }

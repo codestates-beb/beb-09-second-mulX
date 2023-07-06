@@ -1,19 +1,41 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate } from 'react-router-dom';
 import '../../assets/css/login.css';
-import { login } from '../../apis/login';
+import { loginAPI } from '../../apis/login';
 
 const Login = () => {
   const [useremail, setUseremail] = useState('');
   const [password, setPassword] = useState('');
 
+  const navigate = useNavigate();
+
+  function login(){
+    //@notion API 사용 함수를 따로 선언하여 에러 핸들링 및 화면 전환
+    loginAPI(useremail, password, (error, responseData) => {
+      if(error){
+        console.log("로그인 실패")
+        console.log(error.response.status)
+        if(error.response.status == 401){
+          //@notion 비밀번호 틀렸을 때 응답코드 401
+          alert('비밀번호가 잘못되었습니다. 다시 시도해주세요.');
+        }else if(error.response.status == 404){
+          //@notion 없는 이메일 일때 응답코드 404
+          alert('없는 회원입니다. 다시 시도해주세요.');
+        }
+        else{alert('로그인에 실패하셨습니다. 다시 시도해주세요.');}
+      }
+      else{
+        console.error('로그인 성공: ', responseData)
+        //@notion 로그인 성공시 메인으로 화면 전환
+        navigate('/');
+      }
+    })
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // 로그인 처리 로직 작성
-    console.log('로그인 성공:', useremail, password);
-    // 필요한 API 호출 등을 수행할 수 있습니다.
-    const data = await login(useremail, password);
-    console.log(data);
+    //@notion API사용 함수를 호출하여 로그인 실행
+    login()
   };
 
   return (
