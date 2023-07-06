@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../assets/css/login.css';
+import { login } from '../../apis/login';
 
 const Login = () => {
   const [useremail, setUseremail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // 로그인 처리 로직 작성
-    console.log('로그인 정보:', useremail, password);
+    console.log('로그인 성공:', useremail, password);
     // 필요한 API 호출 등을 수행할 수 있습니다.
+    const data = await login(useremail, password);
+    console.log(data);
   };
 
   return (
