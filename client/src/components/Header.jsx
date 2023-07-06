@@ -13,7 +13,7 @@ const Header = () => {
         </div>
         <div className={style.auth}>
           <Link to="/login" className={style.auth_el}>Login</Link>
-          <Link to="/join" className={style.auth_el}>join</Link>
+          <Link to="/signup" className={style.auth_el}>Signup</Link>
         </div>
     </div>
   )
