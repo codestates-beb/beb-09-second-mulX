@@ -9,6 +9,7 @@ import dumyImg4 from '../../assets/img/snow-6071475_1280.jpg'
 
 const MainPost = () => {
   //@notion 메인에 나오는 최신 포스트 화면
+  console.log("변경")
   
   const InfoArr = [[dumyImg1,"Blue sky and green mountains", "gokite227", "2023.07.06"],
                     [dumyImg2, "River and mountain with clear water", "sjlee80", " 2023.07.05"],
