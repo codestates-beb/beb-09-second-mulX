@@ -1,12 +1,11 @@
 // api.js
 import axios from 'axios';
 
-export function signUpAPI(email, nickname, password, callback) {
-  //@notion 콜백함수로 처리하여 err 핸들링
+export function loginAPI(email, password, callback) {
+    //@notion 콜백함수로 처리하여 err 핸들링
   axios
-    .post('http://localhost:8080/user/signup', {
+    .post('http://localhost:8080/user/login', {
       email: email,
-      nickname: nickname,
       password: password,
     })
     .then(response => {

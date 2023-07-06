@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate } from 'react-router-dom';
 import '../../assets/css/signup.css';
-import { signUp } from '../../apis/singUp'
+import { signUpAPI } from '../../apis/singUp';
 
 const Signup = () => {
   const [useremail, setUseremail] = useState('');
@@ -14,15 +14,36 @@ const Signup = () => {
   const [useremailFailure, setUseremailFailure] = useState(null);
   const [passwordFailure, setPasswordFailure] = useState(null);
   const [confirmPasswordFailure, setConfirmPasswordFailure] = useState(null);
+  const navigate = useNavigate();
+
+
+  function signUp() {
+     //@notion API 사용 함수를 따로 선언하여 에러 핸들링 및 화면 전환
+    signUpAPI(useremail, nickname, password, (error, responseData) => {
+      if (error) {
+        if(error.response.status == 409){
+          //@notion 아이디 중복일 때 응답코드 409
+          alert('이미 있는 아이디입니다. 다른 아이디로 시도해주세요.');
+        }
+        else{
+          alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+        }
+        
+      }
+      else{
+        console.error('회원가입 성공: ', responseData)
+        //@notion 회원가입에 성공하면 alert확인후 login 페이지로 이동
+        alert('회원가입이 성공적으로 완료되었습니다.');
+        navigate('/login');
+      }
+    })
+  }  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // 회원가입 처리 로직 작성
     console.log('가입 정보:', useremail, password, confirmPassword, nickname, profilePicture);
-    console.log("변경")
-    const data = await signUp(useremail, nickname, password)
-    console.log(data)
-    // 필요한 API 호출 등을 수행할 수 있습니다.
+     //@notion API사용 함수를 호출하여 로그인 실행
+    signUp()
   };
 
   const handleFileChange = (e) => {
@@ -62,25 +83,6 @@ const Signup = () => {
       return '';
     }
   };
-
-  // let elInputUsername = document.querySelector('#username')
-
-  // let elSuccessMsg = document.querySelector('.success-message');
-  // let elFailureMsg = document.querySelector('.failure-message');
-
-  // const isMoreThan5Length = function (value) {
-  //   return value.length >= 5;
-  // }
-  
-  // elInputUsername.onkeyup = () => {
-  //   if (isMoreThan5Length(elInputUsername.value)) {
-  //     elSuccessMsg.classList.remove('hide');
-  //     elFailureMsg.classList.add('hide');
-  //   } else {
-  //     elSuccessMsg.classList.add('hide');
-  //     elFailureMsg.classList.remove('hide');
-  //   }
-  // }
 
   return (
     <div className="signup-container">

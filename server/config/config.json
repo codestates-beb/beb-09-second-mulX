@@ -1,21 +1,21 @@
 {
   "development": {
     "username": "root",
-    "password": "Myang0227!",
+    "password": "",
     "database": "mulX",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": "Myang0227!",
+    "password": "",
     "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": "Myang0227!",
+    "password": "",
     "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql"
