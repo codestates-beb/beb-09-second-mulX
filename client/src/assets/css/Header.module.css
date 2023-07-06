@@ -1,0 +1,40 @@
+/* Header.module.css */
+.headerContainer {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    justify-items: center;
+    background-color: #B38369; /* Semi-transparent black background */
+    color: white; /* Text color set to white */
+    padding: 1%
+  }
+  
+  .logo {
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .menu {
+    display: flex;
+    justify-content: center; /* Center the menu items horizontally */
+    gap: 2vw; /* Add some spacing between menu items */
+    margin-right: -7vw;
+  }
+  
+  .menu div {
+    font-weight: bold;
+  }
+  
+  .auth {
+    display: flex;
+    justify-content: flex-end; /* Align the auth section to the right */
+    gap: 2vw; /* Add some spacing between auth items */
+  }
+  
+  .auth_el {
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+  }
+  

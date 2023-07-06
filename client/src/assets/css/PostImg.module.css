@@ -1,0 +1,28 @@
+.PostContainer {
+    position: relative;
+  }
+  
+  .PostImg {
+    flex: 1;
+    max-width: 90%;
+    height: auto;
+  }
+  
+  .PostInfo {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.8);
+    color: black;
+    padding: 10px;
+    width: 90%; /* 가로길이를 90%로 조정 */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .PostContainer:hover .PostInfo {
+    opacity: 1;
+  }
+  
