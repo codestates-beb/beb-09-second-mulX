@@ -1,4 +1,5 @@
 const { Users } = require('../models');
+const { ethers } = require('ethers');
 
 module.exports = {
   signup: async (req, res) => {
@@ -12,11 +13,16 @@ module.exports = {
           error: 'User already exists',
         });
       } else {
+        const newWallet = ethers.Wallet.createRandom();
+        console.log(newWallet.mnemonic.phrase);
+
         user = await Users.create({
           email: email,
           password: password,
           nickname: nickname,
-          address: `0x${Math.random().toString(16).slice(2, 42)}`,
+          address: newWallet.address,
+          privatekey: newWallet.privateKey,
+          mnemonic: newWallet.mnemonic.phrase,
         });
 
         res.status(200).json({

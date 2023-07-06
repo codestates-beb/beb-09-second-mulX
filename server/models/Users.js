@@ -22,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
       nickname: DataTypes.STRING,
       password: DataTypes.STRING,
       address: DataTypes.STRING,
+      privatekey: DataTypes.STRING,
+      mnemonic: DataTypes.STRING,
       token_amount: {
         type: DataTypes.FLOAT,
         defaultValue: 0,
