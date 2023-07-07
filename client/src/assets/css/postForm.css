@@ -1,4 +1,4 @@
-.post-form-container {
+/* .post-form-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -6,52 +6,50 @@
     background-image: url("../img/mountain-6815304_1280.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-  }
-  
-  .post-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    border-radius: 10px;
-    width: 800px;
-    max-width: 100%;
-  }
-  
-  .post-form h1 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .form-field {
-    margin-bottom: 15px;
-    width: 100%;
-  }
-  
-  .form-field label {
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  .form-field input,
-  .form-field textarea {
-    width: 100%;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
+}
 
-  .form-field textarea {
-    height: 500px;
-  }
-  
-  button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
+.post-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+  width: 800px;
+  max-width: 100%;
+}
+
+.post-form h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-field {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-field textarea {
+  height: 500px;
+}
+
+.post-form button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+}
+   */
