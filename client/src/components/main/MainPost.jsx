@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styles from '../../assets/css/MainTitle.module.css';
-import PostImg from './PostImg';
+import PostImg from '../post/PostImg'
 
 import dumyImg1 from '../../assets/img/mountain-world-1495832_1280.jpg'
 import dumyImg2 from '../../assets/img/mountains-4467436_1280.jpg'
