@@ -6,6 +6,7 @@ import Login from './page/LoginPage';
 import Signup from './page/SignupPage';
 import PostForm from './page/PostFormPage';
 import Post from './page/PostPage'
+import PostDetail from './page/PostDetailPage';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path ="/signup" element={<Signup />} />
             <Route path ="/post" element={<Post />} />
             <Route path ="/postform" element={<PostForm />} />
+            <Route path ="/postdetail" element={<PostDetail />} />
           </Routes>
       </div>
     </BrowserRouter>
