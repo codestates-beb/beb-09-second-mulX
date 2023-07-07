@@ -5,7 +5,7 @@ import Main from './page/MainPage';
 import Login from './page/LoginPage';
 import Signup from './page/SignupPage';
 import PostForm from './page/PostFormPage';
-
+import MyPage from './page/MyPagePage';
 
 function App() {
   return (
@@ -17,6 +17,7 @@ function App() {
             <Route path ="/login" element={<Login />} />
             <Route path ="/signup" element={<Signup />} />
             <Route path ="/postform" element={<PostForm />} />
+            <Route path ="/mypage" element={<MyPage />} />
           </Routes>
       </div>
     </BrowserRouter>
