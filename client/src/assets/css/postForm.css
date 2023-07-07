@@ -3,6 +3,7 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
+    background-image: url("../img/mountain-6815304_1280.jpg");
     background-repeat: no-repeat;
     background-size: cover;
   }
@@ -12,9 +13,8 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: #fff;
     border-radius: 10px;
-    width: 400px;
+    width: 800px;
     max-width: 100%;
   }
   
@@ -25,6 +25,7 @@
   
   .form-field {
     margin-bottom: 15px;
+    width: 100%;
   }
   
   .form-field label {
@@ -38,6 +39,10 @@
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
+  }
+
+  .form-field textarea {
+    height: 500px;
   }
   
   button {
