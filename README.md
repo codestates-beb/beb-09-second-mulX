@@ -18,8 +18,6 @@ MySQL 실행
 npx sequelize-cli db:create // MySQL database 생성 (mulX)
 npx sequelize-cli db:migrate // MySQL table update (DB Schema 반영)
 
-npm start // express 서버 시작
-
 API Docs
 https://flicker-wealth-b5d.notion.site/Prj-2-Incentive-Token-Community-df031b0a2d034ee796d141b40fc127b6?pvs=4
 
@@ -43,3 +41,5 @@ npx hardhat run scrips/deploy.js --network ganache
 
 //계약배포 후 터미널의 Contract 주소를 server 폴더의 .env file에 기입
 //MULX20_CONTRACT_ADDRESS, MULX721_CONTRACT_ADDRESS
+
+npm start // express 서버 시작

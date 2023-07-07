@@ -2,7 +2,6 @@ const { Users } = require('../models');
 const { ethers } = require('ethers');
 
 const MulX20 = require('../../smartContract/artifacts/contracts/MulX20.sol/MulX20.json');
-const MulX721 = require('../../smartContract/artifacts/contracts/MulX721.sol/MulX721.json');
 
 const provider = new ethers.JsonRpcProvider(process.env.GANACHE_URL);
 
@@ -22,13 +21,19 @@ module.exports = {
         value: ethers.parseEther('0.1'),
       };
       const txResponse = await ServerWallet.sendTransaction(tx);
+      const balanceOfEth = ethers.formatEther(await provider.getBalance(address));
+
+      const [updatedRows] = await Users.update(
+        { eth_amount: balanceOfEth },
+        { where: { email: email } }
+      );
 
       res.status(200).json({
         message: 'Faucet successfully completed.',
         data: {
           address: address,
           txHash: txResponse.hash,
-          balance: ethers.formatEther(await provider.getBalance(address)),
+          balance: balanceOfEth,
         },
       });
     } catch (error) {
@@ -79,7 +84,10 @@ module.exports = {
       const balanceOfToken = await MulX20Contract.balanceOf(address);
       const balanceOfTokenEther = ethers.formatEther(balanceOfToken);
 
-      console.log(balanceOfTokenEther);
+      const [updatedRows] = await Users.update(
+        { token_amount: balanceOfTokenEther },
+        { where: { email: email } }
+      );
 
       res.status(200).json({
         message: 'Token successfully rewarded.',

@@ -74,4 +74,33 @@ module.exports = {
       res.status(400).json({ error: 'The request message is invalid.' });
     }
   },
+
+  findUser: async (req, res) => {
+    const { email } = req.params;
+
+    try {
+      const user = await Users.findOne({ where: { email: email } });
+
+      if (user) {
+        res.status(200).json({
+          message: 'Find User',
+          data: {
+            email: user.email,
+            nickname: user.nickname,
+            address: user.address,
+            token_amount: user.token_amount,
+            eth_amount: user.eth_amount,
+            createdAt: user.createdAt,
+          },
+        });
+      } else {
+        res.status(404).json({
+          error: 'User does not exist',
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ error: 'The request message is invalid.' });
+    }
+  },
 };
