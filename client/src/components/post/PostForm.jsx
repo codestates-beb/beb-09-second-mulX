@@ -1,17 +1,24 @@
 import React, { useState, useRef } from 'react';
 import '../../assets/css/postForm.css';
+import { useNavigate } from 'react-router-dom';
+import { postFormAPI } from '../../apis/postForm';
 
 const PostForm = () => {
+  const useremail = 'stcr96@gmail.com';
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // 게시글 등록 처리 로직 작성
-    console.log('게시글 정보:', title, content, selectedImage);
+    console.log('게시글 정보:', useremail, title, content, selectedImage);
     // 필요한 API 호출 등을 수행할 수 있습니다.
+    postFormAPI(useremail, title, content);
+    navigate('/');
   };
 
   const handleFileChange = (e) => {
