@@ -8,7 +8,7 @@ const Header = () => {
     <div className={style.headerContainer}>
         <Link to="/" className={style.logo}>logo</Link>
         <div className={style.menu}>
-            <div>Post</div>
+            <Link to="/" className={style.auth_el}>Post</Link>
             <div>NFT</div>
             <div>Faucet</div>
         </div>
