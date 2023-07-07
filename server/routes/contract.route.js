@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const controller = require('../controllers/contract.controller');
 
-router.post('/contract/faucet', controller.faucet);
-router.get('/contract/faucet', controller.searchEth);
-router.post('/contract/token', controller.token);
-router.get('/contract/token', controller.balanceOf);
-router.post('/contract/transfer', controller.transfer);
+router.post('/faucet', controller.faucet);
+router.get('/faucet/:address', controller.balanceOfEth);
+router.post('/token', controller.token);
+router.get('/token/:address', controller.balanceOfToken);
+router.post('/transfer', controller.transfer);
 
 module.exports = router;
