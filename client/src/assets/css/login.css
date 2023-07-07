@@ -1,12 +1,12 @@
-.login-container {
+/* .login-container {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-image: url("../img/mountains-55067_640.png"); /* 배경 이미지 경로로 수정해주세요 */
+    background-image: url("../img/mountains-55067_640.png");
     background-repeat: no-repeat;
     background-size: cover;
-  }
+}
   
   .login-form {
     display: flex;
@@ -41,14 +41,12 @@
     border-radius: 5px;
   }
   
-  button {
-    width: 100%;
+  .login-form button {
     padding: 10px;
     background-color: #4caf50;
     color: #fff;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
   }
   
   .signup-link {
@@ -60,4 +58,4 @@
     color: white;
     text-decoration: none;
   }
-  
+*/

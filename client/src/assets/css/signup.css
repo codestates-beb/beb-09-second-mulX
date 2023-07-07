@@ -1,3 +1,8 @@
+/* button {
+  width: 100%;
+  cursor: pointer;
+}
+
 .signup-container {
   display: flex;
   align-items: center;
@@ -36,19 +41,15 @@
   display: none;
 }
 
-h1,
-label {
+.signup-form h1,
+.form-field label {
   color: white;
-}
-
-button {
-  width: 100%;
-  cursor: pointer;
 }
 
 input[type="text"],
 input[type="password"],
-button {
+button[type="button"],
+button[type="submit"] {
   width: 100%;
   padding: 1rem;
   border-radius: 10px;
@@ -84,4 +85,4 @@ button[type="submit"] {
 .login-link a {
   color: white;
   text-decoration: none;
-}
+} */
