@@ -64,12 +64,6 @@ contract MulX721 is ERC721URIStorage, Ownable {
         return NftPrice[_tokenId];
     }
 
-    // function buyNFT() public returns (bool) {
-    //     require(token.balanceOf(msg.sender) > nftPrice);
-    //     token.transferFrom(msg.sender, address(this), nftPrice);
-    //     return true;
-    // }
-
     function getAllNftList() public view returns (NftTokenData[] memory) {
         uint256 nftLength = _tokenIds.current();
         NftTokenData[] memory nftTokenData = new NftTokenData[](nftLength);
@@ -138,5 +132,15 @@ contract MulX721 is ERC721URIStorage, Ownable {
             }
         }
         return 0;
+    }
+
+    function buyNFT(uint256 _tokenId) public {
+        require(
+            token.transferFrom(msg.sender, address(this), NftPrice[_tokenId]),
+            "Token transfer failed"
+        );
+        address payable owner = payable(ownerOf(_tokenId));
+        token.transfer(owner, NftPrice[_tokenId]);
+        safeTransferFrom(owner, msg.sender, _tokenId);
     }
 }
