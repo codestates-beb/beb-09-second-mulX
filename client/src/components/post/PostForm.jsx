@@ -31,8 +31,8 @@ const PostForm = () => {
   };
 
   return (
-    <div className="post-form-container">
-      <form onSubmit={handleSubmit} className="post-form">
+    <div className="postform-container">
+      <form onSubmit={handleSubmit} className="postform-form">
         <h1>게시글 작성</h1>
         <div className="form-field">
           <label htmlFor="title">제목:</label>
