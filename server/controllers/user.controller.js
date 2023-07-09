@@ -53,6 +53,7 @@ module.exports = {
           res.status(200).json({
             message: 'Login',
             data: {
+              email: user.email,
               nickname: user.nickname,
               address: user.address,
               token_amount: user.token_amount,
