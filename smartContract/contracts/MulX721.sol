@@ -11,31 +11,148 @@ contract MulX721 is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
     IERC20 token;
-    uint256 nftPrice;
+    uint256 nftFee;
+
+    struct NftTokenData {
+        uint256 nftTokenId;
+        string nftTokenURI;
+    }
+
+    mapping(uint256 => string) public metadataURIs;
+    mapping(uint256 => uint256) public NftPrice;
 
     constructor() ERC721("MyNFTs", "MNFT") {
-        nftPrice = 100e18;
+        nftFee = 1e17; // 0.1 MulX Mint fee
     }
 
     function mintNFT(
         address recipient,
-        string memory tokenURI
-    ) public onlyOwner returns (uint256) {
-        require(token.balanceOf(recipient) > nftPrice);
+        string memory tokenURI,
+        uint256 _nftPrice
+    ) public onlyOwner returns (uint256, uint256) {
+        //require(token.balanceOf(recipient) > nftPrice);
 
-        token.transferFrom(recipient, msg.sender, nftPrice);
+        //token.transferFrom(recipient, msg.sender, nftPrice);
 
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
         _mint(recipient, newItemId);
         _setTokenURI(newItemId, tokenURI);
+        NftPrice[newItemId] = _nftPrice;
 
-        return newItemId;
+        return (newItemId, NftPrice[newItemId]);
+    }
+
+    function getTokenId() public view returns (uint256) {
+        return _tokenIds.current();
     }
 
     function setToken(address tokenAddress) public onlyOwner returns (bool) {
         require(tokenAddress != address(0x0));
         token = IERC20(tokenAddress);
         return true;
+    }
+
+    function setNftPrice(
+        uint256 _tokenId,
+        uint256 _price
+    ) public onlyOwner returns (uint256) {
+        return NftPrice[_tokenId] = _price;
+    }
+
+    function getNftPrice(uint256 _tokenId) public view returns (uint256) {
+        return NftPrice[_tokenId];
+    }
+
+    function getAllNftList() public view returns (NftTokenData[] memory) {
+        uint256 nftLength = _tokenIds.current();
+        NftTokenData[] memory nftTokenData = new NftTokenData[](nftLength);
+
+        for (uint256 i = 0; i < nftLength; i++) {
+            uint256 nftTokenId = i + 1;
+            string memory nftTokenURI = tokenURI(nftTokenId);
+
+            nftTokenData[i] = NftTokenData(nftTokenId, nftTokenURI);
+        }
+
+        return nftTokenData;
+    }
+
+    function getNftTokenList(
+        address _nftTokenOwner
+    ) public view returns (NftTokenData[] memory) {
+        uint256 balanceLength = balanceOf(_nftTokenOwner); // 발행한 nft 갯수 확인
+
+        NftTokenData[] memory nftTokenData = new NftTokenData[](balanceLength);
+
+        for (uint256 i = 0; i < balanceLength; i++) {
+            uint256 nftTokenId = tokenOfOwnerByIndex(_nftTokenOwner, i);
+            string memory nftTokenURI = tokenURI(nftTokenId);
+
+            nftTokenData[i] = NftTokenData(nftTokenId, nftTokenURI);
+        }
+
+        return nftTokenData;
+    }
+
+    function totalSupply() public view returns (uint256) {
+        return _tokenIds.current();
+    }
+
+    function balanceOf(address _owner) public view returns (uint256) {
+        uint256 counter = 0;
+        for (uint256 i = 1; i <= totalSupply(); i++) {
+            if (ownerOf(i) == _owner) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    function getOwnerOfTokenId(uint256 tokenId) public view returns (address) {
+        return ownerOf(tokenId);
+    }
+
+    function tokenOfOwnerByIndex(
+        address _owner,
+        uint256 _index
+    ) public view returns (uint256) {
+        require(
+            _index < balanceOf(_owner),
+            "ERC721Enumerable: owner index out of bounds"
+        );
+
+        uint256 counter = 0;
+        for (uint256 i = 1; i <= totalSupply(); i++) {
+            if (ownerOf(i) == _owner) {
+                if (counter == _index) {
+                    return i;
+                }
+                counter++;
+            }
+        }
+        return 0;
+    }
+
+    function buyNFT(uint256 _tokenId, address _buyAddress) public {
+        uint256 price = NftPrice[_tokenId];
+        require(price > 0, "Invalid NFT price");
+        require(
+            token.allowance(_buyAddress, address(this)) >= price,
+            "Token allowance not set"
+        );
+
+        // Transfer tokens from buyer to contract
+        require(
+            token.transferFrom(_buyAddress, address(this), price),
+            "Token transfer failed"
+        );
+
+        // Transfer tokens from contract to seller
+        address payable seller = payable(ownerOf(_tokenId));
+        require(token.transfer(seller, price), "Token transfer failed");
+
+        // Transfer NFT from seller to buyer
+        safeTransferFrom(seller, _buyAddress, _tokenId);
     }
 }

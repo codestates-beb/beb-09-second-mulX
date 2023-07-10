@@ -56,16 +56,51 @@ module.exports = {
   },
 
   findByIdPost: async (req, res) => {
-    const { post_id } = req.params;
-
     try {
-      const post = await Posts.findOne({ where: { post_id: post_id }, include: Users });
-      const { user_id, User, ...rest } = post.dataValues;
-      const user = await Users.findOne({ where: { user_id } });
-      const modifiedPost = { ...rest, email: user.email };
-      res.status(200).json({ post: modifiedPost });
-    } catch (err) {
-      res.status(500).json({ error: 'Failed to get post' });
+      const { post_id } = req.params;
+
+      const post = await Posts.findOne({ where: { post_id: post_id } });
+
+      console.log(post);
+
+      if (!post) {
+        return res.status(404).json({
+          message: 'Post not found',
+        });
+      }
+
+      res.status(200).json(post);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: 'Internal server error',
+      });
+    }
+  },
+
+  findByEmail: async (req, res) => {
+    try {
+      const { email } = req.params;
+
+      const user = await Users.findOne({ where: { email: email } });
+
+      if (!user) {
+        return res.status(404).json({
+          message: 'User not found',
+        });
+      }
+
+      const posts = await Posts.findAll({
+        where: { user_id: user.user_id },
+        order: [['createdAt', 'DESC']],
+      });
+
+      res.status(200).json(posts);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: 'Internal server error',
+      });
     }
   },
 
