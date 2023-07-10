@@ -4,7 +4,7 @@ const { NFTStorage, File } = require('nft.storage');
 const MulX721 = require('../../smartContract/artifacts/contracts/MulX721.sol/MulX721.json');
 const ethers = require('ethers');
 const Sequelize = require('sequelize');
-const { Users } = require('../models');
+const { Users, Imgs } = require('../models');
 
 require('dotenv').config();
 

@@ -8,12 +8,10 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
+
     static associate(models) {
-      // define association here
-      Imgs.belongsTo(models.Users, {
-        foreignKey: { name: 'users_id', allowNull: false },
-        onDelete: 'CASCADE',
-      });
+      Imgs.belongsTo(models.Posts, { foreignKey: 'post_id' });
+      Imgs.belongsTo(models.Users, { foreignKey: 'user_id' });
     }
   }
   Imgs.init(
@@ -24,15 +22,15 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         primaryKey: true,
       },
-      profile_img: DataTypes.STRING,
-      post_img: DataTypes.STRING,
+      profile_img: DataTypes.BLOB('long'),
+      post_img: DataTypes.BLOB('long'),
       user_id: DataTypes.INTEGER,
       post_id: DataTypes.INTEGER,
     },
     {
       sequelize,
       modelName: 'Imgs',
-      timestamps: true,
+      timestamps: false,
     }
   );
   return Imgs;
