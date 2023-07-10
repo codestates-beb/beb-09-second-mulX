@@ -8,6 +8,7 @@ import PostForm from './page/PostFormPage';
 import Post from './page/PostPage'
 import PostDetail from './page/PostDetailPage';
 
+import MyPage from './page/MyPagePage';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path ="/post" element={<Post />} />
             <Route path ="/postform" element={<PostForm />} />
             <Route path ="/postdetail" element={<PostDetail />} />
+            <Route path ="/mypage" element={<MyPage />} />
           </Routes>
       </div>
     </BrowserRouter>
