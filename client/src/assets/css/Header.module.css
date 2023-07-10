@@ -40,6 +40,15 @@
     text-decoration: none;
   }
   
+  .headerContainer .auth_logout {
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    outline: none;
+  }
+  
 
   .headerContainer_white {
     display: grid;
