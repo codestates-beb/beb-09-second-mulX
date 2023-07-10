@@ -1,5 +1,10 @@
-const { Posts, Users } = require('../models');
+const { Posts, Users, Imgs } = require('../models');
 const Sequelize = require('sequelize');
+const multer = require('multer');
+
+const storage = multer.memoryStorage();
+
+const upload = multer({ storage: storage });
 
 module.exports = {
   post: async (req, res) => {
@@ -19,12 +24,12 @@ module.exports = {
       });
 
       res.status(201).send({
+        message: 'Success write post',
         data: {
           postId: post.post_id,
           createdAt: post.createdAt,
           updatedAt: post.updatedAt,
         },
-        message: 'Success write post',
       });
     } catch (err) {
       res.status(500).send({ error: 'Failed to write Post' });

@@ -9,12 +9,20 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      profile_img: Sequelize.STRING,
-      post_img: Sequelize.STRING,
-      post_id: Sequelize.INTEGER,
+      profile_img: Sequelize.BLOB('long'),
+      post_img: Sequelize.BLOB('long'),
+      post_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: 'Posts',
+          key: 'post_id',
+        },
+        onDelete: 'CASCADE',
+      },
       user_id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: 'Users',
           key: 'user_id',

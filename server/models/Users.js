@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Users.hasMany(models.Posts, { foreignKey: 'user_id' });
       Users.hasMany(models.Nfts, { foreignKey: 'user_id' });
-      Users.hasMany(models.Imgs, { foreignKey: 'user_id' });
+      Users.belongsTo(models.Imgs, { foreignKey: 'user_id' });
     }
   }
   Users.init(
