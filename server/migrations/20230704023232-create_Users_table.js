@@ -27,6 +27,16 @@ module.exports = {
         allowNull: false,
         defaultValue: '0x0',
       },
+      privatekey: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: '0x0',
+      },
+      mnemonic: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: 'default',
+      },
       token_amount: {
         type: Sequelize.FLOAT,
         allowNull: false,

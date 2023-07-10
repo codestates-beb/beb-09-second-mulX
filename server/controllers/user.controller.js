@@ -1,4 +1,5 @@
 const { Users } = require('../models');
+const { ethers } = require('ethers');
 
 module.exports = {
   signup: async (req, res) => {
@@ -12,11 +13,16 @@ module.exports = {
           error: 'User already exists',
         });
       } else {
+        const newWallet = ethers.Wallet.createRandom();
+        console.log(newWallet.mnemonic.phrase);
+
         user = await Users.create({
           email: email,
           password: password,
           nickname: nickname,
-          address: `0x${Math.random().toString(16).slice(2, 42)}`,
+          address: newWallet.address,
+          privatekey: newWallet.privateKey,
+          mnemonic: newWallet.mnemonic.phrase,
         });
 
         res.status(200).json({
@@ -47,6 +53,7 @@ module.exports = {
           res.status(200).json({
             message: 'Login',
             data: {
+              email: user.email,
               nickname: user.nickname,
               address: user.address,
               token_amount: user.token_amount,
@@ -58,6 +65,35 @@ module.exports = {
             error: 'Password is incorrect',
           });
         }
+      } else {
+        res.status(404).json({
+          error: 'User does not exist',
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(400).json({ error: 'The request message is invalid.' });
+    }
+  },
+
+  findUser: async (req, res) => {
+    const { email } = req.params;
+
+    try {
+      const user = await Users.findOne({ where: { email: email } });
+
+      if (user) {
+        res.status(200).json({
+          message: 'Find User',
+          data: {
+            email: user.email,
+            nickname: user.nickname,
+            address: user.address,
+            token_amount: user.token_amount,
+            eth_amount: user.eth_amount,
+            createdAt: user.createdAt,
+          },
+        });
       } else {
         res.status(404).json({
           error: 'User does not exist',

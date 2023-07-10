@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers/user.controller');
+const controller = require('../controllers/nft.controller');
 
-router.get('/nft', controller.user_join_post);
-router.get('/nft/:address', controller.user_join_post);
-router.post('/nft/mint', controller.user_login_post);
-router.post('/nft/buy', controller.user_transfer_post);
+router.post('/mint', controller.articleFormDataHandler, controller.mint);
+router.get('/', controller.findAllNfts);
+router.get('/:address', controller.findOwnerNfts);
+router.post('/price', controller.setPrice);
+router.get('/price/:tokenId', controller.getPrice);
+router.post('/buy', controller.buyNft);
 
 module.exports = router;
