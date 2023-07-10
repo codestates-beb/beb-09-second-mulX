@@ -3,6 +3,8 @@ const fs = require('fs');
 const { NFTStorage, File } = require('nft.storage');
 const MulX721 = require('../../smartContract/artifacts/contracts/MulX721.sol/MulX721.json');
 const ethers = require('ethers');
+const Sequelize = require('sequelize');
+const { Users } = require('../models');
 
 require('dotenv').config();
 
@@ -89,10 +91,17 @@ module.exports = {
       const ownerAddress = req.body.userAddress;
       //console.log(metadataURL);
 
+      const user = await Users.findOne({ where: { address: ownerAddress } });
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found.' });
+      }
+
       const setMulX20 = await MulX721Contract.setToken(MulX20ContractAddress);
+
       const tx = await MulX721Contract.mintNFT(ownerAddress, metadataURL, req.body.price);
       const tokenId = await MulX721Contract.getTokenId();
-      console.log(tokenId);
+      //console.log(tokenId);
       const getNFTPrice = await MulX721Contract.getNftPrice(tokenId);
 
       res.status(200).json({
@@ -102,26 +111,25 @@ module.exports = {
         price: getNFTPrice.toString(),
       });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       res.status(500).json({ error: 'Failed to mint NFT.' });
     }
   },
   findAllNfts: async (req, res) => {
     try {
       const nftList = await MulX721Contract.getAllNftList();
-
-      console.log(nftList);
+      //console.log(nftList);
 
       const serializedNftList = nftList.map((nft) => {
         return {
-          id: nft[0].toString(),
+          tokenId: nft[0].toString(),
           uri: nft[1],
         };
       });
 
       res.status(200).json({ nftList: serializedNftList });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       res.status(500).json({ error: 'Failed to find all NFTs.' });
     }
   },
@@ -131,11 +139,11 @@ module.exports = {
       const { address } = req.params;
       const nftOwnerList = await MulX721Contract.getNftTokenList(address);
 
-      console.log(nftOwnerList);
+      //console.log(nftOwnerList);
 
       const serializedNftList = nftOwnerList.map((nft) => {
         return {
-          id: nft[0].toString(),
+          tokenId: nft[0].toString(),
           uri: nft[1],
         };
       });
@@ -143,9 +151,69 @@ module.exports = {
       res.status(200).json({ nftList: serializedNftList });
       //res.status(200).json('test');
     } catch (error) {
-      console.log(error);
+      //console.log(error);
       res.status(500).json({ error: 'Failed to find owner NFTs.' });
     }
   },
-  buyNft: async (req, res) => {},
+
+  setPrice: async (req, res) => {
+    try {
+      const { address, tokenId, price } = req.body;
+
+      const user = await Users.findOne({ where: { address: address } });
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found.' });
+      }
+
+      const owner = await MulX721Contract.getOwnerOfTokenId(tokenId);
+      if (owner !== address) {
+        return res.status(403).json({ error: 'You are not owner of this NFT.' });
+      }
+
+      const setNftPrice = await MulX721Contract.setNftPrice(tokenId, price);
+      const viewPrice = await MulX721Contract.getNftPrice(tokenId);
+
+      res.status(200).json({
+        tokenId: tokenId,
+        price: viewPrice.toString(),
+      });
+    } catch (error) {
+      //console.log(error);
+      res.status(500).json({ error: 'Failed to set price.' });
+    }
+  },
+  getPrice: async (req, res) => {
+    try {
+      const { tokenId } = req.params;
+      const price = await MulX721Contract.getNftPrice(tokenId);
+      res.status(200).json({
+        tokenId: tokenId,
+        price: price.toString(),
+      });
+    } catch (error) {
+      //console.log(error);
+      res.status(500).json({ error: 'Failed to get price.' });
+    }
+  },
+
+  buyNft: async (req, res) => {
+    try {
+      const { address, tokenId } = req.body;
+
+      const user = await Users.findOne({ where: { address: address } });
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found.' });
+      }
+
+      const tx = await MulX721Contract.buyNFT(tokenId, buyerAddress);
+      console.log(tx);
+      // res.status(200).json({ tx: tx });
+      res.status(200).json('test');
+    } catch (error) {
+      //console.log(error);
+      res.status(500).json({ error: 'Failed to buy NFT.' });
+    }
+  },
 };
