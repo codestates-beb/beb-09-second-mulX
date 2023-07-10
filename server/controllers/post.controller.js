@@ -1,34 +1,57 @@
-const { Posts, Users } = require('../models');
+const { Posts, Users, Imgs } = require('../models');
 const Sequelize = require('sequelize');
+const multer = require('multer');
+
+const storage = multer.memoryStorage();
+
+const upload = multer({ storage: storage });
 
 module.exports = {
   post: async (req, res) => {
-    const { email, title, content } = req.body;
-
-    try {
-      const user = await Users.findOne({ where: { email } });
-
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
+    upload.single('post_img')(req, res, async (err) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).json({ message: 'Failed to upload file.' });
       }
 
-      const post = await Posts.create({
-        user_id: user.user_id,
-        title,
-        content,
-      });
+      const { email, title, content } = req.body;
+      const image = req.file;
 
-      res.status(201).send({
-        data: {
-          postId: post.post_id,
-          createdAt: post.createdAt,
-          updatedAt: post.updatedAt,
-        },
-        message: 'Success write post',
-      });
-    } catch (err) {
-      res.status(500).send({ error: 'Failed to write Post' });
-    }
+      //console.log(req.body);
+      //console.log(req.file);
+
+      try {
+        const user = await Users.findOne({ where: { email } });
+
+        if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+
+        const post = await Posts.create({
+          user_id: user.user_id,
+          title,
+          content,
+        });
+
+        const img = await Imgs.create({
+          post_img: image.buffer,
+          user_id: user.user_id,
+        });
+
+        res.status(201).send({
+          message: 'Success write post',
+          data: {
+            postId: post.post_id,
+            createdAt: post.createdAt,
+            updatedAt: post.updatedAt,
+            profile_img: img,
+          },
+        });
+        //res.status(200).json({ message: 'Success write post' });
+      } catch (err) {
+        res.status(500).send({ error: 'Failed to write Post' });
+      }
+    });
   },
 
   findAllPost: async (req, res) => {
@@ -50,6 +73,7 @@ module.exports = {
       });
 
       res.status(200).json({ message: 'Success get all posts', posts: modifiedPosts });
+      //res.status(200).json({ message: 'Success get all posts' });
     } catch (err) {
       res.status(500).json({ error: 'Failed to get all posts' });
     }
