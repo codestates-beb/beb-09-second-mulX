@@ -1,0 +1,100 @@
+/* MainTitle.module.css */
+.MainContainer {
+    position: relative;
+  }
+  
+  .MainContainer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    z-index: 1; /* Ensure the overlay is stacked above the image */
+  }
+  
+  .MainBgImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0; /* Ensure the image is stacked below the overlay */
+  }
+
+  .TitleContainer {
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    
+  }
+  
+  .MainTitle {
+    font-size: 60px;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .MainText {
+    font-size: 18px;
+    color: white;
+    margin-top: 10px;
+  }
+
+  /* MainTitle.module.css */
+.PostContainer {
+  text-align: center;
+  color: white;
+  margin: 3%;
+  margin-bottom: 10%;
+  /* Rest of the styles */
+}
+
+.PostTitle {
+  font-size: 30px;
+
+}
+
+/* MainTitle.module.css */
+.Postimg {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1vw;
+  padding-top: 2%;
+  /* Rest of the styles */
+}
+
+.Postimg > img {
+  flex: 1; /* Distribute the available space equally among the items */
+  max-width: 23.5%; /* Set the maximum width to 20% of the container */
+  height: auto; /* Maintain the aspect ratio */
+  /* Rest of the styles */
+}
+
+.NFTContainer{
+  text-align: center;
+  color: white;
+  padding-bottom: 5%;
+  justify-content: space-between; /* Add equal spacing between items */
+  align-items: center; /* Vertically center the items */
+
+}
+
+.NFTimg {
+  display: flex;
+  justify-content: center;
+  gap: 2vw;
+  padding-top: 2%;
+}
+
+.NFTimg > img {
+  width: 20vw;
+  height: 20vw;
+  object-fit: cover;
+  /* Rest of the styles */
+}
+
+
+
+
+  

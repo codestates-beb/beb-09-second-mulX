@@ -1,0 +1,88 @@
+/* Header.module.css */
+.headerContainer {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    justify-items: center;
+    background-color: #B38369; /* Semi-transparent black background */
+    color: white; /* Text color set to white */
+    padding: 1%;
+    padding-bottom: 1.2%;
+    padding-top: 1.2%;
+  }
+  
+  .headerContainer > .logo {
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .headerContainer > .menu {
+    display: flex;
+    justify-content: center; /* Center the menu items horizontally */
+    gap: 2vw; /* Add some spacing between menu items */
+    margin-right: -7vw;
+  }
+  
+  .headerContainer > .menu div {
+    font-weight: bold;
+  }
+  
+  .headerContainer > .auth {
+    display: flex;
+    justify-content: flex-end; /* Align the auth section to the right */
+    gap: 2vw; /* Add some spacing between auth items */
+  }
+  
+  .headerContainer .auth_el {
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+  }
+  
+
+  .headerContainer_white {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    justify-items: center;
+    background-color: white; /* Semi-transparent black background */
+    padding: 1%;
+    padding-bottom: 1.2%;
+    padding-top: 1.2%;
+    /* border-bottom: 1px solid black; */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: fixed;
+    top: 0;
+    width: 98%;
+    z-index: 10;
+  }
+
+  .headerContainer_white > .logo {
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+  }
+
+  .headerContainer_white > .menu {
+    display: flex;
+    justify-content: center; /* Center the menu items horizontally */
+    gap: 2vw; /* Add some spacing between menu items */
+    margin-right: -7vw;
+  }
+  
+  .headerContainer_white > .menu div {
+    font-weight: bold;
+  }
+  
+  .headerContainer_white > .auth {
+    display: flex;
+    justify-content: flex-end; /* Align the auth section to the right */
+    gap: 2vw; /* Add some spacing between auth items */
+  }
+  
+  .headerContainer_white .auth_el {
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+  }
