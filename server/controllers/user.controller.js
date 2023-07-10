@@ -28,7 +28,7 @@ module.exports = {
           });
         } else {
           const newWallet = ethers.Wallet.createRandom();
-          console.log(newWallet.mnemonic.phrase);
+          //console.log(newWallet.mnemonic.phrase);
           user = await Users.create({
             email: email,
             password: password,
@@ -39,7 +39,7 @@ module.exports = {
           });
 
           const img = await Imgs.create({
-            profile_img: image,
+            profile_img: image.buffer,
             user_id: user.user_id,
           });
 
@@ -52,7 +52,7 @@ module.exports = {
               token_amount: user.token_amount,
               eth_amount: user.eth_amount,
               createdAt: user.createdAt,
-              image: img.profile_img,
+              profile_img: img,
             },
           });
         }
@@ -104,16 +104,26 @@ module.exports = {
       const user = await Users.findOne({ where: { email: email } });
 
       if (user) {
+        const img = await Imgs.findOne({ where: { user_id: user.user_id } });
+
+        console.log(img);
+
+        const responseData = {
+          email: user.email,
+          nickname: user.nickname,
+          address: user.address,
+          token_amount: user.token_amount,
+          eth_amount: user.eth_amount,
+          createdAt: user.createdAt,
+        };
+
+        if (img) {
+          responseData.profile_img = img.profile_img;
+        }
+
         res.status(200).json({
           message: 'Find User',
-          data: {
-            email: user.email,
-            nickname: user.nickname,
-            address: user.address,
-            token_amount: user.token_amount,
-            eth_amount: user.eth_amount,
-            createdAt: user.createdAt,
-          },
+          data: responseData,
         });
       } else {
         res.status(404).json({
