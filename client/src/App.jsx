@@ -10,6 +10,8 @@ import Signup from './page/SignupPage';
 import PostForm from './page/PostFormPage';
 import Post from './page/PostPage'
 import PostDetail from './page/PostDetailPage';
+import MyPage from './page/MyPagePage';
+
 
 function Layout() {
   const location = useLocation();
@@ -33,6 +35,7 @@ function Layout() {
         <Route path="/post" element={<Post />} />
         <Route path="/postform" element={<PostForm />} />
         <Route path="/postdetail" element={<PostDetail />} />
+        <Route path ="/mypage" element={<MyPage />} />
       </Routes>
     </div>
   );
@@ -45,6 +48,7 @@ function App() {
         <Layout />
       </BrowserRouter>
     </Provider>
+
   );
 }
 
