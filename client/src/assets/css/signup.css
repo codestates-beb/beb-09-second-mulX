@@ -1,0 +1,87 @@
+.signup-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-image: url('../img/mountains-55067_640.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5rem;
+  background-color: transparent;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 100%;
+}
+
+.form-field {
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.success-message {
+  color: green;
+}
+
+.failure-message {
+  color: red;
+}
+
+.hide {
+  display: none;
+}
+
+h1,
+label {
+  color: white;
+}
+
+button {
+  width: 100%;
+  cursor: pointer;
+}
+
+input[type="text"],
+input[type="password"],
+button {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+input[type="text"],
+input[type="password"] {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+input[type="file"] {
+  background-color: black;
+}
+
+button[type="button"] {
+  color: white;
+  background-color: black;
+}
+
+button[type="submit"] {
+  color: white;
+  background-color: red;
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.login-link a {
+  color: white;
+  text-decoration: none;
+}
