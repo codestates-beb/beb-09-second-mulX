@@ -15,7 +15,7 @@ import MyPage from './page/MyPagePage';
 
 function Layout() {
   const location = useLocation();
-  const [page, setPage]  = useState('');
+  const [page, setPage]  = useState('orange');
 
   useEffect(() => {
     if (location.pathname === '/' || location.pathname === '/login' || location.pathname === '/signup') {

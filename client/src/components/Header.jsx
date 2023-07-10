@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import style from '../assets/css/Header.module.css'
 import { Link, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setLogout } from '../Redux/userSlice';
 
 const Header = ( {path} ) => {
@@ -15,9 +15,23 @@ const Header = ( {path} ) => {
   } else if (path === 'black') {
     containerClass = style.headerContainer_black;
   }
-  
-  const dispatch = useDispatch(); // get the dispatch function
 
+  //@notion 리덕스 storge에 있는 유저정보 불러온다.
+  const user = useSelector((state) => state.user); 
+
+  // const [isLogin, setIsLogin] = useState(false)
+  // useEffect(() => {
+  //   if(!!user.email){
+  //     setIsLogin(false)
+  //   }else{
+  //     setIsLogin(true)
+  //   }
+  // },[isLogin])
+  // console.log(isLogin)
+  
+
+
+  const dispatch = useDispatch(); // get the dispatch function
   const handleLogout = () => {
     // Dispatch the setLogout action
     dispatch(setLogout());

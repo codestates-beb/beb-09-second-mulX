@@ -38,9 +38,10 @@ const Login = () => {
       } else {
         console.error('로그인 성공: ', responseData);
         //@notion 로그인 성공시 메인으로 화면 전환
-        const { nickname, address, token_amount, eth_amount } = responseData.data;
+        const { email, nickname, address, token_amount, eth_amount } = responseData.data;
         dispatch(
           setLogin({
+            email,
             nickname,
             address,
             token_amount,
