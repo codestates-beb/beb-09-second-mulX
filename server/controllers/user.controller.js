@@ -10,7 +10,7 @@ module.exports = {
   signup: async (req, res) => {
     upload.single('image')(req, res, async (err) => {
       if (err) {
-        console.log(err);
+        //console.log(err);
         return res.status(400).json({ message: 'Failed to upload file.' });
       }
 
@@ -18,7 +18,7 @@ module.exports = {
       const image = req.file;
 
       //console.log(req.body);
-      //console.log(req.file);
+      console.log(req.file);
 
       try {
         let user = await Users.findOne({ where: { email: email } });
@@ -40,6 +40,7 @@ module.exports = {
 
           const img = await Imgs.create({
             profile_img: image.buffer,
+            profile_img_Type: image.mimetype,
             user_id: user.user_id,
           });
 
@@ -52,7 +53,6 @@ module.exports = {
               token_amount: user.token_amount,
               eth_amount: user.eth_amount,
               createdAt: user.createdAt,
-              profile_img: img,
             },
           });
         }
@@ -118,6 +118,7 @@ module.exports = {
         };
 
         if (img) {
+          responseData.profile_img_Type = img.profile_img_Type;
           responseData.profile_img = img.profile_img;
         }
 
