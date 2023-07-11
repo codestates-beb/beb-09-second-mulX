@@ -16,6 +16,7 @@ module.exports = {
 
       const { email, title, content } = req.body;
       const image = req.file;
+      const base64Image = image.buffer.toString('base64');
 
       //console.log(req.body);
       //console.log(req.file);
@@ -34,7 +35,7 @@ module.exports = {
         });
 
         const img = await Imgs.create({
-          post_img: image.buffer,
+          post_img: base64Image,
           post_img_Type: image.mimetype,
           post_id: post.post_id,
           user_id: user.user_id,
@@ -77,9 +78,12 @@ module.exports = {
           //console.log(imgs);
 
           const imgData = imgs.map((img) => {
+            console.log(img);
+            const dataUrl = `data:${img.post_img_Type};base64,${img.post_img}`;
+
             return {
               post_id: img.post_id,
-              post_img: img.post_img,
+              post_img: dataUrl,
               post_img_Type: img.post_img_Type,
             };
           });
@@ -123,7 +127,7 @@ module.exports = {
       const imgs = await Imgs.findOne({ where: { post_id: post.post_id } });
 
       //console.log(imgs);
-
+      const dataUrl = `data:${imgs.post_img_Type};base64,${imgs.post_img}`;
       const responseData = {
         post_id: post.post_id,
         title: post.title,
@@ -132,7 +136,7 @@ module.exports = {
         createdAt: post.createdAt,
         updatedAt: post.updatedAt,
         post_img_Type: imgs.post_img_Type,
-        post_img: imgs.post_img,
+        post_img: dataUrl,
       };
 
       res.status(200).json(responseData);
@@ -165,9 +169,11 @@ module.exports = {
           const imgs = await Imgs.findAll({ where: { post_id: post.post_id } });
 
           const imgData = imgs.map((img) => {
+            const dataUrl = `data:${img.post_img_Type};base64,${img.post_img}`;
+
             return {
               post_id: img.post_id,
-              post_img: img.post_img,
+              post_img: dataUrl,
               post_img_Type: img.post_img_Type,
             };
           });
