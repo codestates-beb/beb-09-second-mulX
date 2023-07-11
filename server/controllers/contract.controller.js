@@ -136,9 +136,11 @@ module.exports = {
 
     try {
       const user = await Users.findOne({ where: { email: email } });
+      if (!user) {
+        return res.status(401).json({ error: 'User does not exist.' });
+      }
 
       const UserWallet = new ethers.Wallet(user.privatekey, provider);
-      const ServerPrivateKey = process.env.SERVER_PRIVATE_KEY;
       const MulX20ContractAddress = process.env.MULX20_CONTRACT_ADDRESS;
 
       const MulX20Contract = new ethers.Contract(
@@ -163,7 +165,7 @@ module.exports = {
         },
       });
     } catch (err) {
-      res.status(400).json({ error: 'check your test ETH or token balance' });
+      res.status(400).json({ error: 'The request message is invalid.' });
     }
   },
 };

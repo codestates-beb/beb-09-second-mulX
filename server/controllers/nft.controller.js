@@ -1,6 +1,7 @@
 const multer = require('multer');
 const fs = require('fs');
 const { NFTStorage, File } = require('nft.storage');
+const MulX20 = require('../../smartContract/artifacts/contracts/MulX20.sol/MulX20.json');
 const MulX721 = require('../../smartContract/artifacts/contracts/MulX721.sol/MulX721.json');
 const ethers = require('ethers');
 const Sequelize = require('sequelize');
@@ -207,9 +208,43 @@ module.exports = {
         return res.status(404).json({ error: 'User not found.' });
       }
 
-      const tx = await MulX721Contract.buyNFT(tokenId, buyerAddress);
+      buyerPrivateKey = user.privatekey;
+      const buyerWallet = new ethers.Wallet(buyerPrivateKey, provider);
+
+      const BuyMulX20Contract = new ethers.Contract(
+        MulX20ContractAddress,
+        MulX20.abi,
+        buyerWallet
+      );
+
+      const BuyMulX721Contract = new ethers.Contract(
+        MulX721ContractAddress,
+        MulX721.abi,
+        buyerWallet
+      );
+
+      const priceNft = await BuyMulX721Contract.getNftPrice(tokenId);
+      const ownerAddress = await BuyMulX721Contract.getOwnerOfTokenId(tokenId);
+      console.log(ownerAddress);
+
+      if (priceNft == 0) {
+        return res.status(403).json({ error: 'This NFT is not for sale.' });
+      }
+
+      const priceNftWei = ethers.parseEther(priceNft.toString());
+
+      const approve = await BuyMulX20Contract.approve(
+        MulX721ContractAddress,
+        priceNftWei
+      );
+      const tx = await MulX20Contract.transferFrom(
+        MulX721ContractAddress,
+        ownerAddress,
+        priceNftWei,
+        { from: buyerWallet }
+      );
       console.log(tx);
-      // res.status(200).json({ tx: tx });
+      // // res.status(200).json({ tx: tx });
       res.status(200).json('test');
     } catch (error) {
       //console.log(error);
