@@ -18,7 +18,7 @@ module.exports = {
       const image = req.file;
 
       //console.log(req.body);
-      console.log(req.file);
+      //console.log(req.file);
 
       try {
         let user = await Users.findOne({ where: { email: email } });
