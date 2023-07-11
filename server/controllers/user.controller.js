@@ -16,9 +16,10 @@ module.exports = {
 
       const { email, nickname, password } = req.body;
       const image = req.file;
+      const base64Image = image.buffer.toString('base64');
 
-      //console.log(req.body);
-      //console.log(req.file);
+      //console.log(image.buffer);
+      //console.log(base64Image);
 
       try {
         let user = await Users.findOne({ where: { email: email } });
@@ -39,7 +40,7 @@ module.exports = {
           });
 
           const img = await Imgs.create({
-            profile_img: image.buffer,
+            profile_img: base64Image,
             profile_img_Type: image.mimetype,
             user_id: user.user_id,
           });
