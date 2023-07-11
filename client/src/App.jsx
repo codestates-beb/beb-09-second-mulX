@@ -22,6 +22,8 @@ function Layout() {
       setPage('orange');
     } else if (location.pathname === '/post' || location.pathname === '/postdetail') {
       setPage('white');
+    } else if(location.pathname === "/postform"){
+      setPage('black')
     }
   }, [location]);
 

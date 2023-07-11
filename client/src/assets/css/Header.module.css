@@ -95,3 +95,50 @@
     color: black;
     text-decoration: none;
   }
+
+  .headerContainer_black {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    justify-items: center;
+    background-color: black; /* Semi-transparent black background */
+    opacity: 60%;
+    color: white; /* Text color set to white */
+    padding: 1%;
+    padding-bottom: 1.2%;
+    padding-top: 1.2%;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .headerContainer_black > .logo {
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .headerContainer_black > .menu {
+    display: flex;
+    justify-content: center; /* Center the menu items horizontally */
+    gap: 2vw; /* Add some spacing between menu items */
+    margin-right: -7vw;
+  }
+  
+  .headerContainer_black > .menu div {
+    font-weight: bold;
+  }
+  
+  .headerContainer_black > .auth {
+    display: flex;
+    justify-content: flex-end; /* Align the auth section to the right */
+    gap: 2vw; /* Add some spacing between auth items */
+  }
+  
+  .headerContainer_black .auth_el {
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+  }

@@ -16,10 +16,9 @@ const Signup = () => {
   const [confirmPasswordFailure, setConfirmPasswordFailure] = useState(null);
   const navigate = useNavigate();
 
-
-  function signUp() {
+  async function signUp() {
      //@notion API 사용 함수를 따로 선언하여 에러 핸들링 및 화면 전환
-    signUpAPI(useremail, nickname, password, (error, responseData) => {
+    signUpAPI(useremail, nickname, password, profilePicture, (error, responseData) => {
       if (error) {
         if(error.response.status == 409){
           //@notion 아이디 중복일 때 응답코드 409
@@ -43,12 +42,14 @@ const Signup = () => {
     e.preventDefault();
     console.log('가입 정보:', useremail, password, confirmPassword, nickname, profilePicture);
      //@notion API사용 함수를 호출하여 로그인 실행
-    signUp()
+      signUp();
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setProfilePicture(file);
+    if (e.target.files[0] !== undefined){
+      const file = e.target.files[0];
+      setProfilePicture(file);
+    }
   };
 
   const handleFileClick = () => {
@@ -153,7 +154,7 @@ const Signup = () => {
             type="file"
             id="profilePicture"
             accept="image/*"
-            onChange={handleFileChange}
+            onChange={(e) => handleFileChange(e)}
             ref={fileInputRef}
             style={{ display: 'none' }}
           />
