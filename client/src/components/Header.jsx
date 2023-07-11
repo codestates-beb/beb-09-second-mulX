@@ -3,6 +3,7 @@ import style from '../assets/css/Header.module.css'
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLogout } from '../Redux/userSlice';
+import { getUserAPI } from '../apis/userfind'
 
 const Header = ( {path} ) => {
   //헤더 화면
@@ -27,6 +28,36 @@ const Header = ( {path} ) => {
     // Dispatch the setLogout action
     dispatch(setLogout());
   };
+
+  const [user, setUser] = useState(null);
+  const [imageBlob, setImageBlob] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+
+  function getUser() {
+    const useremail = 'Leeco@gmail.com';
+    getUserAPI(useremail, (error, responseData) => {
+      if (error) {
+        console.log('회원 찾기 실패');
+      } else {
+        console.log('회원 정보', responseData.data.profile_img);
+        setUser(responseData.data);
+        const blob = new Blob([responseData.data.profile_img.data], { type: responseData.data.profile_img_Type });
+        setImageBlob(blob);
+        setImageUrl(URL.createObjectURL(blob));
+        console.log(imageBlob, imageUrl);
+      }
+    });
+  }
+  
+
+
+  
+
+
+  const onclickHandle = () => {
+    getUser()
+  }
+
 
   return (
     <div className={containerClass}>
@@ -53,9 +84,11 @@ const Header = ( {path} ) => {
         )}
         {isLoggedIn && (
           <>
-            <Link to="/mypage" className={style.auth_el}>
+            {/* <Link to="/mypage" className={style.auth_el}>
               {userNickname}
-            </Link>
+            </Link> */}
+            <button onClick={onclickHandle}>{userNickname}</button>
+            <img src={imageUrl}></img>
             <Link to="" className={style.auth_el} onClick={handleLogout}>Logout</Link>
           </>
         )}

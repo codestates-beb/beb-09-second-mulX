@@ -74,23 +74,21 @@
 .NFTContainer{
   text-align: center;
   color: white;
-  padding-bottom: 5%;
-  justify-content: space-between; /* Add equal spacing between items */
-  align-items: center; /* Vertically center the items */
+  margin: 3%;
 
 }
 
 .NFTimg {
-  display: flex;
-  justify-content: center;
-  gap: 2vw;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1vw;
   padding-top: 2%;
 }
 
 .NFTimg > img {
-  width: 20vw;
-  height: 20vw;
-  object-fit: cover;
+  flex: 1; /* Distribute the available space equally among the items */
+  max-width: 23.5%; /* Set the maximum width to 20% of the container */
+  height: auto;
   /* Rest of the styles */
 }
 
