@@ -3,26 +3,32 @@ import { createSlice } from '@reduxjs/toolkit';
 const userSlice = createSlice({
   name: 'user',
   initialState: {
+    email:'',
     nickname: '',
     address: '',
     token_amount: '',
     eth_amount: '',
+    isLoggedIn: false,
   },
   reducers: {
     setLogout: (state) => {
+      state.email = '';
       state.nickname = '';
       state.address = '';
       state.token_amount = '';
       state.eth_amount = '';
-      console.log('실제 상태:', state.nickname, state.address, state.token_amount, state.eth_amount);
+      state.isLoggedIn = false;
+      console.log('실제 상태:', state.email, state.nickname, state.address, state.token_amount, state.eth_amount, state.isLoggedIn);
     },
     setLogin: (state, action) => {
-      const { nickname, address, token_amount, eth_amount } = action.payload;
+      const { email, nickname, address, token_amount, eth_amount } = action.payload;
+      state.email = email;
       state.nickname = nickname;
       state.address = address;
       state.token_amount = token_amount;
       state.eth_amount = eth_amount;
-      console.log('실제 상태:', state.nickname, state.address, state.token_amount, state.eth_amount); // 실제 상태 출력 '_' 프로퍼티는 프록시 객체의 실제 상태를 나타내는 프로퍼티
+      state.isLoggedIn = true;
+      console.log('실제 상태:', state.email, state.nickname, state.address, state.token_amount, state.eth_amount, state.isLoggedIn); // 실제 상태 출력 '_' 프로퍼티는 프록시 객체의 실제 상태를 나타내는 프로퍼티
     },
     setNickname: (state, action) => {
       state.nickname = action.payload;

@@ -1,6 +1,8 @@
-.postform-container {
+.mint-nft-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   background-image: url("../img/mountain-6815304_1280.jpg");
   width: 100vw;
   height: 100vh;
@@ -8,7 +10,7 @@
   background-size: cover;
 }
 
-.postform-form {
+.mint-nft-form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,12 +19,28 @@
   max-width: 100%;
 }
 
-.postform-form > h1 {
+.mint-nft-form > h1 {
   width: 100%;
   text-align: center;
 }
 
-.form-field textarea#content {
+.mint-nft-picture {
+  width: 50%;
+  height: 50%;
+  overflow: hidden;
+}
+
+.mint-nft-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mint-nft-picture input[type="file"] {
+  display: none;
+}
+
+fieldset.mint-nft-detail {
   width: 100%;
   height: 400px;
   max-height: 100%;
@@ -31,13 +49,13 @@
   resize: vertical;
 }
 
-.postform-form > button[type="submit"] {
+.mint-nft-form > button[type="submit"] {
   width: 100%;
   height: 40px;
   max-height: 100%;
   background-color: #b31d1d;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   margin-top: 20px;
 }

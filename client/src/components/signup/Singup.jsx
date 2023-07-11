@@ -16,10 +16,9 @@ const Signup = () => {
   const [confirmPasswordFailure, setConfirmPasswordFailure] = useState(null);
   const navigate = useNavigate();
 
-
-  function signUp() {
+  async function signUp() {
      //@notion API 사용 함수를 따로 선언하여 에러 핸들링 및 화면 전환
-    signUpAPI(useremail, nickname, password, (error, responseData) => {
+    signUpAPI(useremail, nickname, password, profilePicture, (error, responseData) => {
       if (error) {
         if(error.response.status == 409){
           //@notion 아이디 중복일 때 응답코드 409
@@ -43,12 +42,14 @@ const Signup = () => {
     e.preventDefault();
     console.log('가입 정보:', useremail, password, confirmPassword, nickname, profilePicture);
      //@notion API사용 함수를 호출하여 로그인 실행
-    signUp()
+      signUp();
   };
 
   const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setProfilePicture(file);
+    if (e.target.files[0] !== undefined){
+      const file = e.target.files[0];
+      setProfilePicture(file);
+    }
   };
 
   const handleFileClick = () => {
@@ -89,10 +90,10 @@ const Signup = () => {
       <form onSubmit={handleSubmit} className="signup-form">
         <h1>Welcome!</h1>
         <div className="form-field">
-          <label htmlFor="useremail">이메일:</label>
           <input
             type="text"
             id="useremail"
+            placeholder='이메일을 입력해주세요.'
             value={useremail}
             onChange={(e) => {
               setUseremail(e.target.value);
@@ -106,10 +107,10 @@ const Signup = () => {
           {useremail.length>0 && !useremailFailure && <div className="success-message">사용할 수 있는 이메일입니다.</div>}
         </div>
         <div className="form-field">
-          <label htmlFor="password">비밀번호:</label>
           <input
             type="password"
             id="password"
+            placeholder='비밀번호를 입력해주세요.'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             onKeyUp={(e) => {
@@ -122,10 +123,10 @@ const Signup = () => {
           {password.length >= 10 && !passwordFailure && <div className="success-message">비밀번호가 유효합니다.</div>}
         </div>
         <div className="form-field">
-          <label htmlFor="confirmPassword">비밀번호 확인:</label>
           <input
             type="password"
             id="confirmPassword"
+            placeholder='비밀번호를 다시 입력해주세요.'
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             onKeyUp={(e) => {
@@ -138,10 +139,10 @@ const Signup = () => {
           {confirmPassword.length>0 && !confirmPasswordFailure && <div className="success-message"></div>}
         </div>
         <div className="form-field">
-          <label htmlFor="nickname">닉네임:</label>
           <input
             type="text"
             id="nickname"
+            placeholder='닉네임을 입력해주세요.'
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
             required
@@ -153,7 +154,7 @@ const Signup = () => {
             type="file"
             id="profilePicture"
             accept="image/*"
-            onChange={handleFileChange}
+            onChange={(e) => handleFileChange(e)}
             ref={fileInputRef}
             style={{ display: 'none' }}
           />

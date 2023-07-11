@@ -11,7 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  // const user = useSelector((state) => state.user);
 
   // useEffect(() => {
   //   if (user && user.nickname) {
@@ -38,9 +38,10 @@ const Login = () => {
       } else {
         console.error('로그인 성공: ', responseData);
         //@notion 로그인 성공시 메인으로 화면 전환
-        const { nickname, address, token_amount, eth_amount } = responseData.data;
+        const { email, nickname, address, token_amount, eth_amount } = responseData.data;
         dispatch(
           setLogin({
+            email,
             nickname,
             address,
             token_amount,
@@ -60,25 +61,24 @@ const Login = () => {
     login();
   };
 
+
   return (
     <div className="login-container">
       <form onSubmit={handleSubmit} className="login-form">
         <h1>Welcome Back!</h1>
         <div className="form-field">
-          <label htmlFor="useremail">이메일:</label>
           <input
             type="text"
-            id="useremail"
+            id="login-useremail"
             value={useremail}
             onChange={(e) => setUseremail(e.target.value)}
             required
           />
         </div>
         <div className="form-field">
-          <label htmlFor="password">비밀번호:</label>
           <input
             type="password"
-            id="password"
+            id="login-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required

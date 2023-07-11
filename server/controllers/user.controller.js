@@ -118,8 +118,11 @@ module.exports = {
         };
 
         if (img) {
+          //@notion base64디코딩 url로 디코딩후 responseData.profile_img에 담아 보내줌
+          //`data:"타입";base64,[인코딩 배열] 형식임
+          const dataUrl = `data:${img.profile_img_Type};base64,${img.profile_img}`;
           responseData.profile_img_Type = img.profile_img_Type;
-          responseData.profile_img = img.profile_img;
+          responseData.profile_img = dataUrl;
         }
 
         res.status(200).json({
