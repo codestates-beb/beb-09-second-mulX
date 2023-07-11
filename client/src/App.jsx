@@ -11,6 +11,7 @@ import PostForm from './page/PostFormPage';
 import Post from './page/PostPage'
 import PostDetail from './page/PostDetailPage';
 import MyPage from './page/MyPagePage';
+import MintNFT from './page/MintNFTPage';
 
 
 function Layout() {
@@ -38,6 +39,7 @@ function Layout() {
         <Route path="/postform" element={<PostForm />} />
         <Route path="/postdetail" element={<PostDetail />} />
         <Route path ="/mypage" element={<MyPage />} />
+        <Route path ="/mintnft" element={<MintNFT />} />
       </Routes>
     </div>
   );
