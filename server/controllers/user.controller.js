@@ -18,6 +18,7 @@ module.exports = {
       const image = req.file;
       const base64Image = image.buffer.toString('base64');
 
+      //console.log(image.buffer);
       //console.log(base64Image);
 
       try {

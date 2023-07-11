@@ -143,11 +143,11 @@ module.exports = {
       const UserWallet = new ethers.Wallet(user.privatekey, provider);
       const MulX20ContractAddress = process.env.MULX20_CONTRACT_ADDRESS;
 
-      const MulX20Contract = new ethers.Contract(
-        MulX20ContractAddress,
-        MulX20.abi,
-        UserWallet
-      );
+      // const MulX20Contract = new ethers.Contract(
+      //   MulX20ContractAddress,
+      //   MulX20.abi,
+      //   UserWallet
+      // );
 
       const amountWei = ethers.parseEther(amountSendToken);
 
