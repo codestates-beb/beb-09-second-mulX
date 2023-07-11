@@ -136,24 +136,24 @@ module.exports = {
 
     try {
       const user = await Users.findOne({ where: { email: email } });
-      const address = user.address;
+      if (!user) {
+        return res.status(401).json({ error: 'User does not exist.' });
+      }
 
-      const ServerPrivateKey = process.env.SERVER_PRIVATE_KEY;
-      const ServerWallet = new ethers.Wallet(ServerPrivateKey, provider);
-
+      const UserWallet = new ethers.Wallet(user.privatekey, provider);
       const MulX20ContractAddress = process.env.MULX20_CONTRACT_ADDRESS;
 
       const MulX20Contract = new ethers.Contract(
         MulX20ContractAddress,
         MulX20.abi,
-        ServerWallet
+        UserWallet
       );
 
       const amountWei = ethers.parseEther(amountSendToken);
-      console.log(amountWei);
 
       const txResponse = await MulX20Contract.transfer(toAddress, amountWei);
-      const balanceOfTokenWei = await MulX20Contract.balanceOf(toAddress);
+      //console.log(txResponse);
+      const balanceOfTokenWei = await MulX20Contract.balanceOf(user.address);
       const balanceOfTokenEther = ethers.formatEther(balanceOfTokenWei);
 
       res.status(200).json({
