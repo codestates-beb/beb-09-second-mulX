@@ -64,7 +64,7 @@ module.exports = {
           });
         }
       } catch (error) {
-        console.error(error);
+        //console.error(error);
         res.status(400).json({ error: 'The request message is invalid.' });
       }
     });
@@ -99,7 +99,7 @@ module.exports = {
         });
       }
     } catch (error) {
-      console.error(error);
+      //console.error(error);
       res.status(400).json({ error: 'The request message is invalid.' });
     }
   },
@@ -113,7 +113,7 @@ module.exports = {
       if (user) {
         const img = await Imgs.findOne({ where: { user_id: user.user_id } });
 
-        console.log(img);
+        //console.log(img);
 
         const responseData = {
           email: user.email,
@@ -142,7 +142,7 @@ module.exports = {
         });
       }
     } catch (error) {
-      console.error(error);
+      //console.error(error);
       res.status(400).json({ error: 'The request message is invalid.' });
     }
   },

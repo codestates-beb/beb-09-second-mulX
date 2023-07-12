@@ -98,19 +98,32 @@ module.exports = {
         return res.status(404).json({ error: 'User not found.' });
       }
 
-      const setMulX20 = await MulX721Contract.setToken(MulX20ContractAddress);
+      const ownerWallet = new ethers.Wallet(user.privatekey, provider);
+      const nonceOwnerWallet = new ethers.NonceManager(ownerWallet);
+      const mintMulX721Contract = new ethers.Contract(
+        MulX721ContractAddress,
+        MulX721.abi,
+        nonceOwnerWallet
+      );
 
-      const tx = await MulX721Contract.mintNFT(ownerAddress, metadataURL, req.body.price);
-      const tokenId = await MulX721Contract.getTokenId();
-      //console.log(tokenId);
-      const getNFTPrice = await MulX721Contract.getNftPrice(tokenId);
+      const setMulX20 = await mintMulX721Contract.setToken(MulX20ContractAddress);
+
+      const tx = await mintMulX721Contract.mintNFT(
+        ownerAddress,
+        metadataURL,
+        req.body.price
+      );
+      const tokenId = await mintMulX721Contract.getTokenId();
+      console.log(tokenId);
+      const getNFTPrice = await mintMulX721Contract.getNftPrice(tokenId);
 
       res.status(200).json({
         owner: ownerAddress,
         tokenId: tokenId.toString(),
-        tokenURL: metadataURL,
+        tokenURI: metadataURL,
         price: getNFTPrice.toString(),
       });
+      //res.status(200).json('test');
     } catch (error) {
       //console.log(error);
       res.status(500).json({ error: 'Failed to mint NFT.' });
@@ -124,7 +137,7 @@ module.exports = {
       const serializedNftList = nftList.map((nft) => {
         return {
           tokenId: nft[0].toString(),
-          uri: nft[1],
+          tokenURI: nft[1],
         };
       });
 
@@ -145,7 +158,7 @@ module.exports = {
       const serializedNftList = nftOwnerList.map((nft) => {
         return {
           tokenId: nft[0].toString(),
-          uri: nft[1],
+          tokenURI: nft[1],
         };
       });
 
@@ -210,45 +223,50 @@ module.exports = {
 
       buyerPrivateKey = user.privatekey;
       const buyerWallet = new ethers.Wallet(buyerPrivateKey, provider);
-
+      const nonceBuyerWallet = new ethers.NonceManager(buyerWallet);
       const BuyMulX20Contract = new ethers.Contract(
         MulX20ContractAddress,
         MulX20.abi,
-        buyerWallet
+        nonceBuyerWallet
       );
 
       const BuyMulX721Contract = new ethers.Contract(
         MulX721ContractAddress,
         MulX721.abi,
-        buyerWallet
+        nonceBuyerWallet
       );
 
       const priceNft = await BuyMulX721Contract.getNftPrice(tokenId);
-      const ownerAddress = await BuyMulX721Contract.getOwnerOfTokenId(tokenId);
-      //console.log(priceNft, ownerAddress);
+      let ownerAddress = await BuyMulX721Contract.getOwnerOfTokenId(tokenId);
+      if (ownerAddress == address) {
+        return res.status(402).json({ error: 'You are owner of this NFT.' });
+      }
 
       if (priceNft == 0) {
         return res.status(403).json({ error: 'This NFT is not for sale.' });
       }
 
       const priceNftWei = ethers.parseEther(priceNft.toString());
-      console.log(priceNftWei);
 
       const approve = await BuyMulX20Contract.approve(
         MulX721ContractAddress,
         priceNftWei
       );
-      // const tx = await BuyMulX721Contract.transferFrom(
-      //   MulX721ContractAddress,
-      //   ownerAddress,
-      //   priceNftWei
-      // );
-      console.log(approve);
-      // console.log(tx);
-      // // res.status(200).json({ tx: tx });
-      res.status(200).json('test');
+
+      const tx = await BuyMulX721Contract.buyNftToken(tokenId);
+      ownerAddress = await BuyMulX721Contract.getOwnerOfTokenId(tokenId);
+
+      res.status(200).json({
+        message: 'Success to buy NFT.',
+        data: {
+          tokenId: tokenId,
+          owner: ownerAddress,
+          price: priceNft.toString(),
+        },
+      });
+      //res.status(200).json('test');
     } catch (error) {
-      //console.log(error);
+      console.log(error);
       res.status(500).json({ error: 'Failed to buy NFT.' });
     }
   },

@@ -10,13 +10,17 @@ module.exports = {
   post: async (req, res) => {
     upload.single('post_img')(req, res, async (err) => {
       if (err) {
-        console.log(err);
+        //console.log(err);
         return res.status(400).json({ message: 'Failed to upload file.' });
       }
 
       const { email, title, content } = req.body;
       const image = req.file;
-      const base64Image = image.buffer.toString('base64');
+
+      let base64Image;
+      if (image) {
+        base64Image = image.buffer.toString('base64');
+      }
 
       //console.log(req.body);
       //console.log(req.file);
@@ -34,12 +38,14 @@ module.exports = {
           content,
         });
 
-        const img = await Imgs.create({
-          post_img: base64Image,
-          post_img_Type: image.mimetype,
-          post_id: post.post_id,
-          user_id: user.user_id,
-        });
+        if (image) {
+          const img = await Imgs.create({
+            post_img: base64Image,
+            post_img_Type: image.mimetype,
+            post_id: post.post_id,
+            user_id: user.user_id,
+          });
+        }
 
         res.status(201).send({
           message: 'Success write post',
@@ -75,10 +81,7 @@ module.exports = {
         posts.map(async (post) => {
           const imgs = await Imgs.findAll({ where: { post_id: post.post_id } });
 
-          //console.log(imgs);
-
           const imgData = imgs.map((img) => {
-            console.log(img);
             const dataUrl = `data:${img.post_img_Type};base64,${img.post_img}`;
 
             return {
@@ -88,6 +91,9 @@ module.exports = {
             };
           });
 
+          const postImg = imgData.length > 0 ? imgData[0].post_img : null;
+          const postImgType = imgData.length > 0 ? imgData[0].post_img_Type : null;
+
           return {
             post_id: post.post_id,
             title: post.title,
@@ -95,8 +101,8 @@ module.exports = {
             email: post.User.email,
             createdAt: post.createdAt,
             updatedAt: post.updatedAt,
-            post_img_Type: imgData[0].post_img_Type,
-            post_img: imgData[0].post_img,
+            post_img_Type: postImgType,
+            post_img: postImg,
           };
         })
       );
@@ -127,7 +133,6 @@ module.exports = {
       const imgs = await Imgs.findOne({ where: { post_id: post.post_id } });
 
       //console.log(imgs);
-      const dataUrl = `data:${imgs.post_img_Type};base64,${imgs.post_img}`;
       const responseData = {
         post_id: post.post_id,
         title: post.title,
@@ -135,13 +140,17 @@ module.exports = {
         email: post.User.email,
         createdAt: post.createdAt,
         updatedAt: post.updatedAt,
-        post_img_Type: imgs.post_img_Type,
-        post_img: dataUrl,
       };
+
+      if (imgs) {
+        const dataUrl = `data:${imgs.post_img_Type};base64,${imgs.post_img}`;
+        responseData.post_img_Type = imgs.post_img_Type;
+        responseData.post_img = dataUrl;
+      }
 
       res.status(200).json(responseData);
     } catch (error) {
-      console.error(error);
+      //console.error(error);
       res.status(500).json({
         message: 'Internal server error',
       });
@@ -178,15 +187,18 @@ module.exports = {
             };
           });
 
+          const postImg = imgData.length > 0 ? imgData[0].post_img : null;
+          const postImgType = imgData.length > 0 ? imgData[0].post_img_Type : null;
+
           return {
-            post_id: imgData[0].post_id,
+            post_id: post.post_id,
             title: post.title,
             content: post.content,
             email: user.email,
             createdAt: post.createdAt,
             updatedAt: post.updatedAt,
-            post_img_Type: imgData[0].post_img_Type,
-            post_img: imgData[0].post_img,
+            post_img_Type: postImgType,
+            post_img: postImg,
           };
         })
       );
@@ -194,7 +206,7 @@ module.exports = {
       res.status(200).json(responseData);
       //res.status(200).json({ message: 'Success get all posts' });
     } catch (error) {
-      console.error(error);
+      //console.error(error);
       res.status(500).json({
         message: 'Internal server error',
       });
@@ -211,6 +223,11 @@ module.exports = {
       const { post_id } = req.params;
       const { email, title, content } = req.body;
       const image = req.file;
+
+      let base64Image;
+      if (image) {
+        base64Image = image.buffer.toString('base64');
+      }
 
       const post = await Posts.findOne({
         where: { post_id: post_id },
@@ -257,7 +274,7 @@ module.exports = {
         if (image) {
           await Imgs.update(
             {
-              post_img: image.buffer,
+              post_img: base64Image,
               post_img_Type: image.mimetype,
               post_id: post.post_id,
               user_id: user.user_id,
@@ -270,9 +287,10 @@ module.exports = {
         }
 
         const resPostImg = await Imgs.findOne({ where: { post_id } });
+        const dataUrl = `data:${resPostImg.post_img_Type};base64,${resPostImg.post_img}`;
 
         responseData.post_img_Type = resPostImg.post_img_Type;
-        responseData.post_img = resPostImg.post_img;
+        responseData.post_img = dataUrl;
 
         res.status(200).json({ post: responseData });
         //res.status(200).json('test');
