@@ -60,7 +60,6 @@ const Header = ( {path} ) => {
   return (
     <div className={containerClass}>
       <Link to="/" className={style.logo}>
-        logo
       </Link>
       <div className={style.menu}>
         <Link to="/post" className={style.auth_el}>

@@ -8,7 +8,9 @@
   height: 100vh;
   background-repeat: no-repeat;
   background-size: cover;
+  padding-top: 40px;
 }
+
 
 .mint-nft-form {
   display: flex;
@@ -22,6 +24,7 @@
 .mint-nft-form > h1 {
   width: 100%;
   text-align: center;
+  color: white;
 }
 
 .mint-nft-picture {
@@ -29,9 +32,10 @@
   height: 50%;
   background-color: #ccccccce;
   border-radius: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 3%;
   overflow: hidden;
   cursor: pointer;
+  aspect-ratio: 1.5 / 1;
 }
 
 .mint-nft-picture img {
@@ -60,6 +64,7 @@
   display: flex; /* 추가된 부분: 라벨과 입력 폼을 가로로 배치 */
   align-items: center; /* 추가된 부분: 라벨과 입력 폼을 수직 가운데 정렬 */
   margin-bottom: 10px;
+  font-weight: bold;
 }
 
 .mint-nft-detail input,
