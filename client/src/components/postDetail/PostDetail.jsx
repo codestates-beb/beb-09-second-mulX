@@ -1,9 +1,13 @@
 import React from 'react'
+import { useParams } from 'react-router-dom';
+
 import styles from '../../assets/css/PostDetail.module.css';
 
 import dumyImg1 from '../../assets/img/mountain-world-1495832_1280.jpg'
 
 const PostDetail = () => {
+  const { id } = useParams();
+  console.log(id)
   return (
     <div className={styles.detailContainer}>
       <div className={styles.imgContainer}>
