@@ -12,6 +12,8 @@ import Post from './page/PostPage'
 import PostDetail from './page/PostDetailPage';
 import MyPage from './page/MyPagePage';
 import MintNFT from './page/MintNFTPage';
+import Nft from './components/nft/Nft';
+import NftDetail from './components/nft/NftDetail';
 
 
 function Layout() {
@@ -21,9 +23,9 @@ function Layout() {
   useEffect(() => {
     if (location.pathname === '/' || location.pathname === '/login' || location.pathname === '/signup') {
       setPage('orange');
-    } else if (location.pathname === '/post' || location.pathname === '/postdetail') {
+    } else if (location.pathname === '/post' || location.pathname === '/postdetail' || location.pathname === '/nft' || location.pathname === '/nftdetail') {
       setPage('white');
-    } else if(location.pathname === "/postform"){
+    } else if(location.pathname === "/postform" ||location.pathname === "/mintnft"){
       setPage('black')
     }
   }, [location]);
@@ -37,9 +39,11 @@ function Layout() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/post" element={<Post />} />
         <Route path="/postform" element={<PostForm />} />
-        <Route path="/postdetail" element={<PostDetail />} />
+        <Route path="/postdetail/:id" element={<PostDetail />} />
         <Route path ="/mypage" element={<MyPage />} />
         <Route path ="/mintnft" element={<MintNFT />} />
+        <Route path ="/nft" element={<Nft />} />
+        <Route path ="/nftdetail" element={<NftDetail />} />
       </Routes>
     </div>
   );

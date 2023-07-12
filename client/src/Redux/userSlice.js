@@ -8,6 +8,7 @@ const userSlice = createSlice({
     address: '',
     token_amount: '',
     eth_amount: '',
+    profileImg : "",
     isLoggedIn: false,
   },
   reducers: {
@@ -42,6 +43,10 @@ const userSlice = createSlice({
     setEthAmount: (state, action) => {
       state.eth_amount = action.payload;
     },
+    setProfileImg: (state, action) => {
+      state.profileImg = action.payload;
+      console.log('프로필 이미지 :', state.profileImg)
+    },
   },
 });
 
@@ -52,6 +57,7 @@ export const {
   setAddress,
   setTokenAmount,
   setEthAmount,
+  setProfileImg,
 } = userSlice.actions;
 
 export default userSlice.reducer;
