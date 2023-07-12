@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../../assets/css/Post.module.css';
 import PostImg from './PostImg';
+// import { getAllPostAPI } from '../apis/getAllPost'
 
 import dumyImg1 from '../../assets/img/mountain-world-1495832_1280.jpg';
 import dumyImg2 from '../../assets/img/mountains-4467436_1280.jpg';
@@ -32,6 +33,20 @@ const Post = () => {
   const startIndex = (currentPage - 1) * postsPerPage;
   const endIndex = startIndex + postsPerPage;
   const currentPosts = InfoArr.slice(startIndex, endIndex);
+
+  // function getAllPost() {
+  //   getAllPostAPI((error, responseData) => {
+  //     if (error) {
+  //       console.log('게시글 받아오기 실패');
+  //     } else {
+  //       console.log('회원 정보', responseData.data.profile_img);
+  //     }
+  //   });
+  // }
+
+  // const onclickHandle = () => {
+  //   getAllPost()
+  // }
 
   // 페이지 변경 함수
   const handlePageChange = (pageNumber) => {
