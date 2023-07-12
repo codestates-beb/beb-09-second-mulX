@@ -2,23 +2,48 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100vw;
+  height: 100vh;
   padding: 20px;
   background-color: #f5f5f5;
 }
 
-.profile-section {
+.default-profile-picture {
+  width: 100%;
+  height: 100%;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  background-color: lightgray;
+  color: #333;
+  font-size: 16px;
+}
+
+.picture-section {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  background-color: lightgoldenrodyellow;
+}
+
+.background-picture {
+  position: absolute;
+  width: 100%;
+  height: 270px;
+  border-bottom: 1px solid black;
   margin-bottom: 30px;
+  overflow: hidden;
+  background-color: bisque;
 }
 
 .profile-picture {
-  position: relative;
+  bottom: -10%;
   width: 200px;
   height: 200px;
   border-radius: 50%;
+  background-color: violet;
   overflow: hidden;
+  z-index: 10;
 }
 
 .profile-picture img {
@@ -35,17 +60,12 @@
   cursor: pointer;
 }
 
-.background-picture {
+.background-picture,
+.background-picture img {
   width: 100%;
   height: 200px;
   margin-bottom: 20px;
   overflow: hidden;
-}
-
-.background-picture img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 .background-picture > input[type="file"] {
@@ -66,5 +86,6 @@
 .my-posts-section h2,
 .my-nfts-section h2 {
   font-size: 24px;
+  border-bottom: 1px solid #000;
   margin-bottom: 10px;
 }
