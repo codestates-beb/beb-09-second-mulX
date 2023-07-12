@@ -9,7 +9,8 @@ const MintNFT = () => {
   const [mintNftTheme, setMintNftTheme] = useState('');
 
   const handlePictureChange = (e) => {
-    setMintNftPicture(e.target.value);
+    const file = e.target.files[0];
+    setMintNftPicture(URL.createObjectURL(file));
   };
 
   const handleNameChange = (e) => {
@@ -39,19 +40,17 @@ const MintNFT = () => {
     <div className="mint-nft-container">
       <h1>Mint NFT</h1>
       <form onSubmit={handleMintNFT} className="mint-nft-form">
-        <div className="mint-nft-picture">
-          <label htmlFor="input-nft-picture"> <img src={mintNftPicture} alt="mintNftPicture" /> </label>
+        <label htmlFor="input-nft-picture" className="mint-nft-picture">
+          {mintNftPicture && <img src={mintNftPicture} alt="Preview" className="preview-image" />}
           <input
             type="file"
             id="input-nft-picture"
-            placeholder='사진을 선택하세요.'
-            value={mintNftPicture}
             accept="image/*"
             onChange={handlePictureChange}
             required
           />
-        </div>
-        <fieldset className='mint-nft-detail'>
+        </label>
+        <div className="mint-nft-detail">
           <label htmlFor="name">이름:</label>
           <input
             type="text"
@@ -83,7 +82,7 @@ const MintNFT = () => {
             onChange={handleThemeChange}
             required
           />
-        </fieldset>
+        </div>
         <button type="submit">NFT 민팅</button>
       </form>
     </div>

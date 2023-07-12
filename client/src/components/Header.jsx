@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import style from '../assets/css/Header.module.css'
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { setLogout } from '../Redux/userSlice';
+import { setLogout, setProfileImg } from '../Redux/userSlice';
 import { getUserAPI } from '../apis/userfind'
 
 const Header = ( {path} ) => {
@@ -32,6 +32,8 @@ const Header = ( {path} ) => {
   const [user, setUser] = useState(null);
   const [imageBlob, setImageBlob] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+  const [DecodedImage, setDecodedImage] = useState(null);
+  let decodedImages = null
 
   function getUser() {
     const useremail = 'Leeco@gmail.com';
@@ -39,19 +41,15 @@ const Header = ( {path} ) => {
       if (error) {
         console.log('회원 찾기 실패');
       } else {
-        console.log('회원 정보', responseData.data.profile_img);
-        setUser(responseData.data);
-        const blob = new Blob([responseData.data.profile_img.data], { type: responseData.data.profile_img_Type });
-        setImageBlob(blob);
-        setImageUrl(URL.createObjectURL(blob));
-        console.log(imageBlob, imageUrl);
+        //console.log('회원 정보', responseData.data.profile_img);
+        setImageUrl(responseData.data.profile_img)
+        console.log(imageUrl)
+        dispatch(setProfileImg(imageUrl))
       }
     });
   }
-  
 
 
-  
 
 
   const onclickHandle = () => {
@@ -62,13 +60,14 @@ const Header = ( {path} ) => {
   return (
     <div className={containerClass}>
       <Link to="/" className={style.logo}>
-        logo
       </Link>
       <div className={style.menu}>
         <Link to="/post" className={style.auth_el}>
           Post
         </Link>
-        <div className={style.auth_el}>NFT</div>
+        <Link to="/nft" className={style.auth_el}>
+          NFT
+        </Link>
         <div className={style.auth_el}>Faucet</div>
       </div>
       <div className={style.auth}>
@@ -84,11 +83,11 @@ const Header = ( {path} ) => {
         )}
         {isLoggedIn && (
           <>
-            {/* <Link to="/mypage" className={style.auth_el}>
-              {userNickname}
-            </Link> */}
-            <button onClick={onclickHandle}>{userNickname}</button>
-            <img src={imageUrl}></img>
+            <Link to="/mypage" className={style.auth_el}>
+              <div onClick={onclickHandle}>{userNickname}</div>
+            </Link>
+            {/* <button onClick={onclickHandle}>{userNickname}</button> */}
+            {/* <img src={imageUrl} /> */}
             <Link to="" className={style.auth_el} onClick={handleLogout}>Logout</Link>
           </>
         )}

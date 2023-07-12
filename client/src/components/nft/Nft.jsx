@@ -1,52 +1,41 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../../assets/css/Post.module.css';
-import PostImg from './PostImg';
-// import { getAllPostAPI } from '../apis/getAllPost'
+import NftImg from './NftImg';
 
 import dumyImg1 from '../../assets/img/mountain-world-1495832_1280.jpg';
 import dumyImg2 from '../../assets/img/mountains-4467436_1280.jpg';
 import dumyImg3 from '../../assets/img/path-4353699_1280.jpg';
 import dumyImg4 from '../../assets/img/snow-6071475_1280.jpg';
 
-const Post = () => {
+const Nft = () => {
   const InfoArr = [
-    [dumyImg1, "Blue sky and green mountains", "gokite227", "2023.07.06"],
-    [dumyImg2, "River and mountain with clear water", "sjlee80", " 2023.07.05"],
-    [dumyImg3, "There is a mountain at the end of the trail", "stcr96", "2023.07.04"],
-    [dumyImg4, "Snowy mountain wonders", "codex1928", "2023.07.03"],
-    [dumyImg1, "Blue sky and green mountains", "gokite227", "2023.07.06"],
-    [dumyImg2, "River and mountain with clear water", "sjlee80", "2023.07.05"],
-    [dumyImg3, "There is a mountain at the end of the trail", "stcr96", "2023.07.04"],
-    [dumyImg4, "Snowy mountain wonders", "codex1928", "2023.07.03"],
-    [dumyImg1, "Blue sky and green mountains", "gokite227", "2023.07.06"],
-    [dumyImg2, "River and mountain with clear water", "sjlee80", "2023.07.05"],
-    [dumyImg3, "There is a mountain at the end of the trail", "stcr96", "2023.07.04"],
-    [dumyImg4, "Snowy mountain wonders", "codex1928", "2023.07.03"],
+    [dumyImg1,"Blue sky mountains", "gokite227", 0.001],
+                    [dumyImg2, "River and mountain", "sjlee80", 0.02],
+                    [dumyImg3, "mountain trail", "stcr96", 0.003],
+                    [dumyImg4, "Snowy mountain", "codex1928", 0.1],
+                    [dumyImg1,"Blue sky mountains", "gokite227", 0.001],
+                    [dumyImg2, "River and mountain", "sjlee80", 0.02],
+                    [dumyImg3, "mountain trail", "stcr96", 0.003],
+                    [dumyImg4, "Snowy mountain", "codex1928", 0.1],
+                    [dumyImg1,"Blue sky mountains", "gokite227", 0.001],
+                    [dumyImg2, "River and mountain", "sjlee80", 0.02],
+                    [dumyImg3, "mountain trail", "stcr96", 0.003],
+                    [dumyImg4, "Snowy mountain", "codex1928", 0.1],
+                    [dumyImg1,"Blue sky mountains", "gokite227", 0.001],
+                    [dumyImg2, "River and mountain", "sjlee80", 0.02],
+                    [dumyImg3, "mountain trail", "stcr96", 0.003],
+                    [dumyImg4, "Snowy mountain", "codex1928", 0.1],
     // Add more post data here...
   ];
 
-  const postsPerPage = 8; // 한 페이지에 보여줄 포스트 수
+  const postsPerPage = 12; // 한 페이지에 보여줄 포스트 수
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
 
   // 현재 페이지에 해당하는 포스트 데이터 슬라이싱
   const startIndex = (currentPage - 1) * postsPerPage;
   const endIndex = startIndex + postsPerPage;
   const currentPosts = InfoArr.slice(startIndex, endIndex);
-
-  // function getAllPost() {
-  //   getAllPostAPI((error, responseData) => {
-  //     if (error) {
-  //       console.log('게시글 받아오기 실패');
-  //     } else {
-  //       console.log('회원 정보', responseData.data.profile_img);
-  //     }
-  //   });
-  // }
-
-  // const onclickHandle = () => {
-  //   getAllPost()
-  // }
 
   // 페이지 변경 함수
   const handlePageChange = (pageNumber) => {
@@ -61,9 +50,9 @@ const Post = () => {
   return (
     <div className={styles.back}>
       <div className={styles.Top}>
-        <h1>Post</h1>
-        <Link to="/postform" className={styles.postingBtn}>
-          Posting
+        <h1>NFT</h1>
+        <Link to="/mintnft" className={styles.postingBtn}>
+          Minting
         </Link>
       </div>
       <div className={styles.SearchContainer}>
@@ -73,7 +62,7 @@ const Post = () => {
       <div className={styles.PostContainer}>
         <div className={styles.Postimg}>
           {currentPosts.map((info, i) => {
-            return <Link to={`/postdetail/${i}`}><PostImg PostInfo={info} key={i} /></Link>;
+            return <NftImg PostInfo={info} key={i} />;
           })}
         </div>
       </div>
@@ -92,4 +81,4 @@ const Post = () => {
   );
 };
 
-export default Post;
+export default Nft;
