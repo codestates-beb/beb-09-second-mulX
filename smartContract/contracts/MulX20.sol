@@ -105,12 +105,7 @@ contract MulX20 is ERC20Interface {
         address spender,
         uint amount
     ) external virtual override returns (bool) {
-        uint256 currentAllownace = _allowances[msg.sender][spender];
-        require(
-            currentAllownace >= amount,
-            "ERC20: Transfer amount exceeds allowance"
-        );
-        testapprove(msg.sender, spender, currentAllownace, amount);
+        _approve(msg.sender, spender, amount);
         return true;
     }
 
@@ -127,12 +122,7 @@ contract MulX20 is ERC20Interface {
             currentAllowance >= amount,
             "ERC20: transfer amount exceeds allowance"
         );
-        testapprove(
-            sender,
-            msg.sender,
-            currentAllowance,
-            currentAllowance - amount
-        );
+        _approve(sender, msg.sender, currentAllowance - amount);
         return true;
     }
 
@@ -152,15 +142,14 @@ contract MulX20 is ERC20Interface {
         _balances[recipient] += amount;
     }
 
-    function testapprove(
+    function _approve(
         address owner,
         address spender,
-        uint256 currentAmount,
         uint256 amount
-    ) public virtual {
+    ) internal virtual {
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
+
         _allowances[owner][spender] = amount;
-        emit Approval(owner, spender, currentAmount, amount);
     }
 }

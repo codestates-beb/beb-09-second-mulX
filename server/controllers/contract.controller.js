@@ -150,7 +150,7 @@ module.exports = {
       );
 
       const amountWei = ethers.parseEther(amountSendToken);
-
+      //console.log(amountWei);
       const txResponse = await MulX20Contract.transfer(toAddress, amountWei);
       //console.log(txResponse);
       const balanceOfTokenWei = await MulX20Contract.balanceOf(user.address);
@@ -164,6 +164,7 @@ module.exports = {
           balance: balanceOfTokenEther,
         },
       });
+      //res.status(200).json('test');
     } catch (err) {
       res.status(400).json({ error: 'The request message is invalid.' });
     }

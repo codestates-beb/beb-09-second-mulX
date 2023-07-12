@@ -15,9 +15,14 @@ module.exports = {
       }
 
       const { email, nickname, password } = req.body;
-      const image = req.file;
-      const base64Image = image.buffer.toString('base64');
 
+      const image = req.file;
+
+      let base64Image;
+      if (image) {
+        base64Image = image.buffer.toString('base64');
+      }
+      //console.log(image.buffer);
       //console.log(base64Image);
 
       try {
@@ -38,11 +43,13 @@ module.exports = {
             mnemonic: newWallet.mnemonic.phrase,
           });
 
-          const img = await Imgs.create({
-            profile_img: base64Image,
-            profile_img_Type: image.mimetype,
-            user_id: user.user_id,
-          });
+          if (image) {
+            const img = await Imgs.create({
+              profile_img: base64Image,
+              profile_img_Type: image.mimetype,
+              user_id: user.user_id,
+            });
+          }
 
           res.status(200).json({
             message: 'Signup',
@@ -57,7 +64,7 @@ module.exports = {
           });
         }
       } catch (error) {
-        console.error(error);
+        //console.error(error);
         res.status(400).json({ error: 'The request message is invalid.' });
       }
     });
@@ -92,7 +99,7 @@ module.exports = {
         });
       }
     } catch (error) {
-      console.error(error);
+      //console.error(error);
       res.status(400).json({ error: 'The request message is invalid.' });
     }
   },
@@ -106,7 +113,7 @@ module.exports = {
       if (user) {
         const img = await Imgs.findOne({ where: { user_id: user.user_id } });
 
-        console.log(img);
+        //console.log(img);
 
         const responseData = {
           email: user.email,
@@ -135,7 +142,7 @@ module.exports = {
         });
       }
     } catch (error) {
-      console.error(error);
+      //console.error(error);
       res.status(400).json({ error: 'The request message is invalid.' });
     }
   },

@@ -9,7 +9,7 @@ async function mulXToken() {
 
 async function mulXNFT() {
   const MulX721 = await ethers.getContractFactory('MulX721');
-  const mulX721 = await MulX721.deploy();
+  const mulX721 = await MulX721.deploy({ value: ethers.parseEther('1') });
 
   console.log('MulX721 deployed to:', mulX721.target);
 }
