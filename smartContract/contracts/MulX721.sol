@@ -20,6 +20,7 @@ contract MulX721 is ERC721URIStorage, Ownable {
 
     mapping(uint256 => string) public metadataURIs;
     mapping(uint256 => uint256) public NftPrice;
+    mapping(uint256 => address) private _tokenApprovals;
 
     constructor() payable ERC721("MyNFTs", "MNFT") {
         nftFee = 1e17; // 0.1 MulX Mint fee
@@ -29,7 +30,7 @@ contract MulX721 is ERC721URIStorage, Ownable {
         address recipient,
         string memory tokenURI,
         uint256 _nftPrice
-    ) public onlyOwner returns (uint256, uint256) {
+    ) public returns (uint256, uint256) {
         //require(token.balanceOf(recipient) > nftPrice);
 
         //token.transferFrom(recipient, msg.sender, nftPrice);
@@ -37,6 +38,8 @@ contract MulX721 is ERC721URIStorage, Ownable {
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
         _mint(recipient, newItemId);
+        // 토큰의 소유권을 BuyMulX721Contract 컨트랙트에게 위임
+        approve(address(this), newItemId);
         _setTokenURI(newItemId, tokenURI);
         NftPrice[newItemId] = _nftPrice;
 
@@ -47,10 +50,14 @@ contract MulX721 is ERC721URIStorage, Ownable {
         return _tokenIds.current();
     }
 
-    function setToken(address tokenAddress) public onlyOwner returns (bool) {
+    function setToken(address tokenAddress) public returns (bool) {
         require(tokenAddress != address(0x0));
         token = IERC20(tokenAddress);
         return true;
+    }
+
+    function getToken() public view returns (address) {
+        return address(token);
     }
 
     function setNftPrice(
@@ -134,25 +141,68 @@ contract MulX721 is ERC721URIStorage, Ownable {
         return 0;
     }
 
-    function buyNFT(uint256 _tokenId, address _buyAddress) public {
-        uint256 price = NftPrice[_tokenId];
+    function buyNftToken(uint256 _tokenId) public {
+        uint256 price = NftPrice[_tokenId] * 1 ether;
         require(price > 0, "Invalid NFT price");
         require(
-            token.allowance(_buyAddress, address(this)) >= price,
+            token.allowance(msg.sender, address(this)) >= price,
             "Token allowance not set"
         );
 
-        // Transfer tokens from buyer to contract
+        address seller = ownerOf(_tokenId);
         require(
-            token.transferFrom(_buyAddress, address(this), price),
+            token.transferFrom(msg.sender, seller, price),
             "Token transfer failed"
         );
 
-        // Transfer tokens from contract to seller
-        address payable seller = payable(ownerOf(_tokenId));
-        require(token.transfer(seller, price), "Token transfer failed");
+        //Transfer NFT from seller to buyer
+        IERC721(address(this)).safeTransferFrom(seller, msg.sender, _tokenId);
+    }
 
-        // Transfer NFT from seller to buyer
-        safeTransferFrom(seller, _buyAddress, _tokenId);
+    function getApproved(
+        uint256 _tokenId
+    ) public view virtual override returns (address) {
+        require(
+            _exists(_tokenId),
+            "ERC721: approved query for nonexistent token"
+        );
+        return _tokenApprovals[_tokenId];
+    }
+
+    function getAllowance(
+        address buyer,
+        address spender
+    ) public view returns (uint256) {
+        return token.allowance(buyer, spender);
+    }
+
+    function setMmulTransferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) public returns (bool) {
+        return token.transferFrom(sender, recipient, amount);
+    }
+
+    // NFT 토큰의 승인된 주소를 설정하는 함수
+    function approve(
+        address _approved,
+        uint256 _tokenId
+    ) public virtual override {
+        address owner = ownerOf(_tokenId);
+        require(_approved != owner, "ERC721: approval to current owner");
+        require(
+            msg.sender == owner || isApprovedForAll(owner, msg.sender),
+            "ERC721: approve caller is not owner nor approved for all"
+        );
+        _approve(_approved, _tokenId);
+    }
+
+    // NFT 토큰의 승인된 주소를 설정하는 내부 함수
+    function _approve(
+        address _approved,
+        uint256 _tokenId
+    ) internal virtual override {
+        _tokenApprovals[_tokenId] = _approved;
     }
 }
