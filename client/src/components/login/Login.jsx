@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'; // Add this import
-import { setLogin } from '../../Redux/userSlice'; // Add this import
+import { setLogin, setProfileImg } from '../../Redux/userSlice'; // Add this import
 import '../../assets/css/login.css';
 import { loginAPI } from '../../apis/login';
+import { getUserAPI } from '../../apis/userfind'
 
 
 const Login = () => {
@@ -11,13 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const user = useSelector((state) => state.user);
 
-  // useEffect(() => {
-  //   if (user && user.nickname) {
-  //     console.log('디스패치된 데이터:', user);
-  //   }
-  // }, [user]);
   
   
   function login() {
@@ -58,8 +53,30 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     //@notion API사용 함수를 호출하여 로그인 실행
+    getUser()
     login();
+    
   };
+
+  const [imageUrl, setImageUrl] = useState(null);
+
+  function getUser() {
+    const useremail = 'Leeco@gmail.com';
+    getUserAPI(useremail, (error, responseData) => {
+      if (error) {
+        console.log('회원 찾기 실패');
+      } else {
+        //console.log('회원 정보', responseData.data.profile_img);
+        setImageUrl(responseData.data.profile_img)
+        console.log(imageUrl)
+        dispatch(setProfileImg(imageUrl))
+      }
+    });
+  }
+
+  const onclickHandle = () => {
+    getUser()
+  }
 
 
   return (

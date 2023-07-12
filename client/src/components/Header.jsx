@@ -43,6 +43,7 @@ const Header = ( {path} ) => {
       } else {
         //console.log('회원 정보', responseData.data.profile_img);
         setImageUrl(responseData.data.profile_img)
+        console.log(imageUrl)
         dispatch(setProfileImg(imageUrl))
       }
     });
@@ -84,7 +85,7 @@ const Header = ( {path} ) => {
         {isLoggedIn && (
           <>
             <Link to="/mypage" className={style.auth_el}>
-              {userNickname}
+              <div onClick={onclickHandle}>{userNickname}</div>
             </Link>
             {/* <button onClick={onclickHandle}>{userNickname}</button> */}
             {/* <img src={imageUrl} /> */}
