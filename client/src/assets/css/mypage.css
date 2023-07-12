@@ -1,11 +1,11 @@
 .mypage-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  text-align: center;
   width: 100vw;
   padding: 3%;
   /* background-color: #f5f5f5; */
-  margin-top: 6%;
+  margin-top: -5%;
   margin-bottom: 4%;
 }
 
@@ -23,32 +23,26 @@
 .picture-section {
   position: relative;
   width: 100%;
-  margin-bottom: 2%;
-}
-
-.background-picture {
-  position: absolute;
-  width: 100%;
-  height: 270px;
-  border-bottom: 1px solid black;
-  margin-bottom: 30px;
-  overflow: hidden;
-  background-color: bisque;
 }
 
 .profile-picture {
-  bottom: -10%;
-  width: 200px;
-  height: 200px;
+  position: relative;
+  bottom: -8rem; /* Adjust the value based on your needs */
+  width: 17%;
+  height: auto;
   border-radius: 50%;
-  background-color: violet;
+  background-color: white;
   overflow: hidden;
   z-index: 10;
+  box-shadow: 0px 3px 2px 2px rgba(0, 0, 0, 0.1);
+  aspect-ratio: 1 / 1;
+  margin-left: 2%;
 }
 
 .profile-picture img {
   width: 100%;
   height: 100%;
+  
   object-fit: cover;
 }
 
@@ -60,9 +54,6 @@
   cursor: pointer;
 }
 
-.background-picture{
-
-}
 .background-picture img {
   width: 100%;
   height: 200px;
@@ -75,6 +66,25 @@
   cursor: pointer;
 }
 
+.profile-section{
+  width: 100%;
+  margin-bottom: 2%;
+  border-radius: 10px;
+  /* border-top: 2px solid #000; */
+  box-shadow: 2px 2px 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 2%;
+  padding-top: -1%;
+  padding-left: 20%;
+  padding-right: 4%;
+  text-align: left;
+}
+
+.profile-Nicname{
+  margin-top: -0%;
+  padding-top: -10%;
+}
+
+
 .my-posts-section {
   width: 100%;
   background-color: #fff;
@@ -82,6 +92,7 @@
   border-radius: 10px;
   box-shadow: 2px 2px 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+  
 }
 .my-nfts-section {
   width: 100%;
@@ -95,10 +106,23 @@
 .my-posts-section h2{
   font-size: 24px;
   border-bottom: 1px solid #000;
-  margin-bottom: 10px;
+  padding-bottom: 1.5%;
+  margin-bottom: 1%;
+  text-align: left;
 }
 .my-nfts-section h2 {
   font-size: 24px;
   border-bottom: 1px solid #000;
+  padding-bottom: 1.5%;
   margin-bottom: 10px;
+  text-align: left;
+}
+
+.imgGrid{
+  display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1vw;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    grid-row-gap: 2%;
 }
