@@ -17,7 +17,7 @@ const PostForm = () => {
     // 게시글 등록 처리 로직 작성
     console.log('게시글 정보:', useremail, title, content, selectedImage);
     // 필요한 API 호출 등을 수행할 수 있습니다.
-    postFormAPI(useremail, title, content);
+    postFormAPI(useremail, title, content, selectedImage);
     navigate('/');
   };
 
