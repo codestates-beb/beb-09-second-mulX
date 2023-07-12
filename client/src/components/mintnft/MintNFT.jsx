@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../../assets/css/mintnft.css';
+import { mintNftAPI } from '../../apis/mintNft.js'
+import { useSelector } from 'react-redux';
 
 const MintNFT = () => {
   const [mintNftPicture, setMintNftPicture] = useState('');
@@ -8,9 +10,19 @@ const MintNFT = () => {
   const [mintNftPrice, setMintNftPrice] = useState('');
   const [mintNftTheme, setMintNftTheme] = useState('');
 
+  const [isModalOpen, setIsModalOpen] = useState(false);    // Modal Open handling
+  const [message, setMessage] = useState("");               // Modal Message
+  const [checkFile, setCheckFile] = useState(0);            // 비디오(1)인지 이미지(0)인지 체크
+  const [nftItem, setNftItem] = useState(null);
+  const [nftItemUrl, setNftItemUrl] = useState(null);
+  const [loading, setLoading] = useState(false);  // Add this line
+  const [modalTitle, setModalTitle] = useState(null)
+  const userNickname = useSelector((state) => state.nickname);
+  const walletAddress = useSelector((state) => state.address);
+
   const handlePictureChange = (e) => {
     const file = e.target.files[0];
-    setMintNftPicture(URL.createObjectURL(file));
+    setMintNftPicture(file);
   };
 
   const handleNameChange = (e) => {
@@ -32,9 +44,64 @@ const MintNFT = () => {
   const handleMintNFT = (e) => {
     e.preventDefault();
     // NFT 민팅 처리 로직 작성
-    console.log('NFT 정보:', mintNftPicture, mintNftName, mintNftInfo, mintNftPrice, mintNftTheme);
+    console.log('NFT 정보:', nftItem, mintNftName, mintNftInfo, mintNftPrice, mintNftTheme);
     // 필요한 API 호출 등을 수행할 수 있습니다.
+    mintNft()
   };
+
+  // file upload
+  const imageUpload = (event) => {
+    if (event.target.files[0] !== undefined) {
+      // 업로드 한 파일 가져오기
+      const file = event.target.files[0];
+      let maxSize = 100;
+      let ipfsSize = 50;
+
+      // 파일을 메가바이트 단위로 변환
+      let fileSize = (file.size) / Math.pow(10, 6);
+
+      if(fileSize < maxSize) {
+        let fileType = (file.type).split('/')[1];
+        const imageURL = URL.createObjectURL(file);
+
+        if(fileType === 'png' || fileType === 'jpg' || fileType === 'jpeg' || fileType === 'gif') {
+          setCheckFile(0);
+
+          setNftItem(file);
+          setNftItemUrl(imageURL);
+        } else if (fileType === 'mp4' || fileType === 'mkv') {
+          setCheckFile(1);
+          
+          setNftItem(file);
+          setNftItemUrl(imageURL);
+        } else {
+          setModalTitle('Error');
+          setMessage("File type is not supported. Please upload a PNG, JPG, JPEG, GIF, MP4, or MKV file.");
+          setIsModalOpen(true);
+        }
+      }
+    }
+  }
+
+   //@notion mintNft API
+   function mintNft() {
+    mintNftAPI(
+      nftItem,
+      "Lecoo",
+      "rivers and mountains",
+      "rivers and mountains",
+      "mountain",
+      "2",
+      "0x4e438E153B456AaAEb1EEc15DF20D39fC0121EC4",
+      (error, responseData) => {
+        if (error) {
+          console.error('민팅 실패');
+        } else {
+          console.log('민팅 성공: ', responseData);
+        }
+      }
+    );
+  }
 
   return (
     <div className="mint-nft-container">
@@ -46,7 +113,7 @@ const MintNFT = () => {
             type="file"
             id="input-nft-picture"
             accept="image/*"
-            onChange={handlePictureChange}
+            onChange={(e) => imageUpload(e)}
             required
           />
         </label>
