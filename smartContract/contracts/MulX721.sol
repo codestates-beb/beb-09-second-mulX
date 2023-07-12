@@ -21,7 +21,7 @@ contract MulX721 is ERC721URIStorage, Ownable {
     mapping(uint256 => string) public metadataURIs;
     mapping(uint256 => uint256) public NftPrice;
 
-    constructor() ERC721("MyNFTs", "MNFT") {
+    constructor() payable ERC721("MyNFTs", "MNFT") {
         nftFee = 1e17; // 0.1 MulX Mint fee
     }
 

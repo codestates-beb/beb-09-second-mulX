@@ -225,25 +225,26 @@ module.exports = {
 
       const priceNft = await BuyMulX721Contract.getNftPrice(tokenId);
       const ownerAddress = await BuyMulX721Contract.getOwnerOfTokenId(tokenId);
-      console.log(ownerAddress);
+      //console.log(priceNft, ownerAddress);
 
       if (priceNft == 0) {
         return res.status(403).json({ error: 'This NFT is not for sale.' });
       }
 
       const priceNftWei = ethers.parseEther(priceNft.toString());
+      console.log(priceNftWei);
 
       const approve = await BuyMulX20Contract.approve(
         MulX721ContractAddress,
         priceNftWei
       );
-      const tx = await MulX20Contract.transferFrom(
-        MulX721ContractAddress,
-        ownerAddress,
-        priceNftWei,
-        { from: buyerWallet }
-      );
-      console.log(tx);
+      // const tx = await BuyMulX721Contract.transferFrom(
+      //   MulX721ContractAddress,
+      //   ownerAddress,
+      //   priceNftWei
+      // );
+      console.log(approve);
+      // console.log(tx);
       // // res.status(200).json({ tx: tx });
       res.status(200).json('test');
     } catch (error) {
