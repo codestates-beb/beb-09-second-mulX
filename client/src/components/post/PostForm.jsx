@@ -2,9 +2,10 @@ import React, { useState, useRef } from 'react';
 import '../../assets/css/postForm.css';
 import { useNavigate } from 'react-router-dom';
 import { postFormAPI } from '../../apis/postForm';
+import { useSelector } from 'react-redux';
 
 const PostForm = () => {
-  const useremail = 'stcr96@gmail.com';
+  const useremail = useSelector((state) => state.email);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
