@@ -64,7 +64,7 @@ module.exports = {
           });
         }
       } catch (error) {
-        //console.error(error);
+        console.error(error);
         res.status(400).json({ error: 'The request message is invalid.' });
       }
     });

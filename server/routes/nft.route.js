@@ -8,5 +8,6 @@ router.get('/:address', controller.findOwnerNfts);
 router.post('/price', controller.setPrice);
 router.get('/price/:tokenId', controller.getPrice);
 router.post('/buy', controller.buyNft);
+router.get('/search/:tokenId', controller.findNftsTokenId);
 
 module.exports = router;

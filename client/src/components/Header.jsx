@@ -24,6 +24,7 @@ const Header = ( {path} ) => {
   const isLoggedIn = useSelector((state) => state.isLoggedIn)
   console.log(useSelector((state) => state.isLoggedIn))  // Get the isLoggedIn value from the Redux store
   const userNickname = useSelector((state) => state.nickname); // Get the user's nickname from the Redux store
+  const email = useSelector((state) => state.email);
   const handleLogout = () => {
     // Dispatch the setLogout action
     dispatch(setLogout());
@@ -36,7 +37,7 @@ const Header = ( {path} ) => {
   let decodedImages = null
 
   function getUser() {
-    const useremail = 'Leeco@gmail.com';
+    const useremail = email;
     getUserAPI(useremail, (error, responseData) => {
       if (error) {
         console.log('회원 찾기 실패');
@@ -68,7 +69,9 @@ const Header = ( {path} ) => {
         <Link to="/nft" className={style.auth_el}>
           NFT
         </Link>
-        <div className={style.auth_el}>Faucet</div>
+        <Link to="/faucet" className={style.auth_el}>
+          Faucet
+        </Link>
       </div>
       <div className={style.auth}>
         {!isLoggedIn && (

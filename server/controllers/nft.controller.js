@@ -170,6 +170,26 @@ module.exports = {
     }
   },
 
+  findNftsTokenId: async (req, res) => {
+    try {
+      const { tokenId } = req.params;
+
+      const nftTokenData = await MulX721Contract.getNftByTokenId(tokenId);
+      //console.log(nftTokenData);
+
+      const serializedNftTokenData = {
+        tokenId: nftTokenData[0].toString(),
+        tokenURI: nftTokenData[1],
+      };
+
+      res.status(200).json({ nftList: serializedNftTokenData });
+      //res.status(200).json('test');
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: 'Failed to find NFT of tokenId.' });
+    }
+  },
+
   setPrice: async (req, res) => {
     try {
       const { address, tokenId, price } = req.body;

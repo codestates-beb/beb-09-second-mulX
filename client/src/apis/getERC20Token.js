@@ -1,11 +1,10 @@
 import axios from 'axios';
 
-export function getAllPostAPI(callback) {
+export function getERC20TokenAPI(address, callback) {
   axios
-    .get(`http://localhost:8080/post`)
+    .get(`http://localhost:8080/contract/token/${address}`)
     .then(response => {
       callback(null, response.data); // 성공 시 콜백 호출
-      console.log(response.data)
     })
     .catch(error => {
       callback(error, null); // 실패 시 콜백 호출

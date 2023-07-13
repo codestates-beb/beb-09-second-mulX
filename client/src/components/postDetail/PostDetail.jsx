@@ -1,32 +1,54 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 
 import styles from '../../assets/css/PostDetail.module.css';
+import { getPostByIdAPI } from '../../apis/getPostById'
 
 import dumyImg1 from '../../assets/img/mountain-world-1495832_1280.jpg'
 
 const PostDetail = () => {
   const { id } = useParams();
   console.log(id)
+  const [Info, seInfo] = useState(null)
+
+  function getPostById(){
+    getPostByIdAPI(id, (error, responseData) => {
+      if (error) {
+        console.log('게시글 디테일 받아오기 실패');
+      } else {
+        console.log('게시글 디테일 정보', responseData);
+        seInfo(responseData)
+      }
+    })
+  }
+
+  useEffect(() => {
+    getPostById()
+  }, [])
+
   return (
-    <div className={styles.detailContainer}>
-      <div className={styles.imgContainer}>
-        <img src={dumyImg1}></img>
-      </div>
-      <div className={styles.textContainer}>
-        <div className={styles.TilteContainer}>
-          <h2>Title</h2>
-          <div className={styles.info}>
-            <span>작성자</span>
-            <span>2023.07.07</span>
+    <div>
+      {Info ?
+        (<div className={styles.detailContainer}>
+          <div className={styles.imgContainer}>
+            <img src={Info.post_img}></img>
           </div>
-        </div>
-        <div className={styles.postbody}>
-          <div>
-            안녕하세요! 화창한 여름에 등산을 다녀왔습니다. 푸르른 나무들을 보니 기분이 좋아지더군요. 다들 등산 츄라이^^
+          <div className={styles.textContainer}>
+            <div className={styles.TilteContainer}>
+              <h2>{Info.title}</h2>
+              <div className={styles.info}>
+                <span>{Info.nickname}</span>
+                <span>{Info.createdAt}</span>
+              </div>
+            </div>
+            <div className={styles.postbody}>
+              <div>
+                {Info.content}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </div>) : (<></>)
+      }
     </div>
   )
 }
