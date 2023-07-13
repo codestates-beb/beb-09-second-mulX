@@ -6,6 +6,7 @@ router.post('/', controller.post);
 router.get('/', controller.findAllPost);
 router.get('/:post_id', controller.findByIdPost);
 router.patch('/update/:post_id', controller.update);
-router.get('/user/:email', controller.findByEmail);
+router.get('/search/email/:email', controller.findByEmail);
+router.post('/search/nickname', controller.findByNickname);
 
 module.exports = router;
