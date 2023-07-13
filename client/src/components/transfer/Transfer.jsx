@@ -1,29 +1,43 @@
 import React, { useState } from 'react';
 import '../../assets/css/transfer.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { transferAPI } from '../../apis/transfer';
+import { setTokenAmount } from '../../Redux/userSlice';
 
 const Transfer = () => {
   const [targetAddress, setTargetAddress] = useState('');
+  const [SendToken, setSendToken] = useState('')
   const [transferFailure, setTransferFailure] = useState(null);
+
+  const useremail = useSelector((state) => state.email)
+
+  const dispatch = useDispatch();
 
   const handleAddressChange = (e) => {
     setTargetAddress(e.target.value);
   };
 
-  const validateTransferFailure = (error) => {
-    if (error.response.status === 400) {
-      setTransferFailure('지갑 주소를 입력해주세요.');
-    } else if (error.response.status === 500) {
-      setTransferFailure('지갑 주소를 확인해주세요.');
-    } else {
-      setTransferFailure('알 수 없는 오류가 발생했습니다.');
-    }
+  const handleSendTokenChange = (e) => {
+    setSendToken(e.target.value);
   };
 
-  const handleSendCoins = () => {
+  function transfer(){
+    transferAPI(useremail, targetAddress, SendToken, (error,responseData) => {
+      if (error) {
+        console.log('전송 실패');
+      } else {
+        console.log('전송 성공', responseData)
+        dispatch(setTokenAmount(responseData.data.balance))
+      }
+    })
+  }
+
+  const handleSendCoins = (e) => {
+    e.preventDefault();
     // 코인을 보내는 로직을 작성하세요.
     // 예: API 호출 등
-
-    console.log(`Sending coins to ${targetAddress}`);
+    transfer()
+    console.log(`Sending coins to`, useremail, targetAddress, SendToken);
     // 코인 전송 완료 메시지를 표시하는 등의 추가 작업을 수행할 수 있습니다.
   };
 
@@ -41,9 +55,16 @@ const Transfer = () => {
             onChange={handleAddressChange}
             required
           />
+          <input
+            type="text"
+            id="target-address"
+            value={SendToken}
+            placeholder='토큰 보낼 가격을 입력해주세요.'
+            onChange={handleSendTokenChange}
+            required
+          />
           <button type="submit">Send mulX</button>
-          {transferFailure && <div className="failure-message">{validateTransferFailure}</div>}
-          {targetAddress.length > 0 && !transferFailure && <div className="success-message">성공했습니다.</div>}
+          
         </form>
       </div>
     </div>

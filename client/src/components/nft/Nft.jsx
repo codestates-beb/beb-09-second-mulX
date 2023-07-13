@@ -12,33 +12,15 @@ import dumyImg4 from '../../assets/img/snow-6071475_1280.jpg';
 const Nft = () => {
   const [nftArr, setNftArr] = useState(null);
 
-  const InfoArr = [
-    [dumyImg1, 'Blue sky mountains', 'gokite227', 0.001],
-    [dumyImg2, 'River and mountain', 'sjlee80', 0.02],
-    [dumyImg3, 'mountain trail', 'stcr96', 0.003],
-    [dumyImg4, 'Snowy mountain', 'codex1928', 0.1],
-    [dumyImg1, 'Blue sky mountains', 'gokite227', 0.001],
-    [dumyImg2, 'River and mountain', 'sjlee80', 0.02],
-    [dumyImg3, 'mountain trail', 'stcr96', 0.003],
-    [dumyImg4, 'Snowy mountain', 'codex1928', 0.1],
-    [dumyImg1, 'Blue sky mountains', 'gokite227', 0.001],
-    [dumyImg2, 'River and mountain', 'sjlee80', 0.02],
-    [dumyImg3, 'mountain trail', 'stcr96', 0.003],
-    [dumyImg4, 'Snowy mountain', 'codex1928', 0.1],
-    [dumyImg1, 'Blue sky mountains', 'gokite227', 0.001],
-    [dumyImg2, 'River and mountain', 'sjlee80', 0.02],
-    [dumyImg3, 'mountain trail', 'stcr96', 0.003],
-    [dumyImg4, 'Snowy mountain', 'codex1928', 0.1],
-    // Add more post data here...
-  ];
+  
 
   function getAllNfts() {
     getAllNftAPI((error, responseData) => {
       if (error) {
         console.log('게시글 받아오기 실패');
       } else {
-        console.log('게시글 정보', responseData);
-        setNftArr(responseData);
+        console.log('nft 정보', responseData.nftList);
+        setNftArr(responseData.nftList);
       }
     });
   }
@@ -49,7 +31,7 @@ const Nft = () => {
   // 현재 페이지에 해당하는 포스트 데이터 슬라이싱
   const startIndex = (currentPage - 1) * postsPerPage;
   const endIndex = startIndex + postsPerPage;
-  const currentPosts = InfoArr.slice(startIndex, endIndex);
+  const currentPosts = nftArr? nftArr.slice(startIndex, endIndex):null;
 
   // 페이지 변경 함수
   const handlePageChange = (pageNumber) => {
@@ -57,7 +39,7 @@ const Nft = () => {
   };
 
   // 전체 페이지 수 계산
-  const totalPages = Math.ceil(InfoArr.length / postsPerPage);
+  const totalPages = nftArr? Math.ceil(nftArr.length / postsPerPage): null;
   // 페이지 번호 배열 생성
   const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
 
@@ -79,9 +61,9 @@ const Nft = () => {
       </div>
       <div className={styles.PostContainer}>
         <div className={styles.Postimg}>
-          {currentPosts.map((info, i) => {
-            return <NftImg PostInfo={info} key={i} />;
-          })}
+          {nftArr ? nftArr.map((info, i) => {
+            return <NftImg PostInfo={info.tokenURI} key={i} />;
+          }) : <></>}
         </div>
       </div>
       <div className={styles.Pagination}>

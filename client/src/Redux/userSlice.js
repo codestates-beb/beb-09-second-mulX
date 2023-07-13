@@ -39,6 +39,7 @@ const userSlice = createSlice({
     },
     setTokenAmount: (state, action) => {
       state.token_amount = action.payload;
+      //console.log('토큰잔액', state.token_amount)
     },
     setEthAmount: (state, action) => {
       state.eth_amount = action.payload;

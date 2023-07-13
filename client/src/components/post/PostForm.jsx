@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
 import '../../assets/css/postForm.css';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { postFormAPI } from '../../apis/postForm';
 import { ERC20RewardAPI } from '../../apis/ERC20Reward';
-import { useSelector } from 'react-redux';
+import { setTokenAmount } from '../../Redux/userSlice';
 
 const PostForm = () => {
   const useremail = useSelector((state) => state.email);
@@ -11,6 +12,7 @@ const PostForm = () => {
   const [content, setContent] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
@@ -20,6 +22,7 @@ const PostForm = () => {
         console.log('보상 실패');
       } else {
         console.log('보상 성공', responseData)
+        dispatch(setTokenAmount(responseData.data.balance))
       }
     })
   }
@@ -30,10 +33,10 @@ const PostForm = () => {
     console.log('게시글 정보:', useremail, title, content, selectedImage);
     // 필요한 API 호출 등을 수행할 수 있습니다.
     postFormAPI(useremail, title, content, selectedImage);
-    if(selectedImage){
+    
       ERC20Reward()
-    }
-    navigate('/post');
+    
+    //navigate('/post');
   };
 
   const handleFileChange = (e) => {
