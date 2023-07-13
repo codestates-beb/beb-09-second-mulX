@@ -2,12 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfileImg } from '../../Redux/userSlice';
+import { setTokenAmount } from '../../Redux/userSlice';
 import "../../assets/css/mypage.css";
 import PostImg from '../post/PostImg'
 
 import { getUserAPI } from '../../apis/userfind'
 import { getPostByEmailAPI } from '../../apis/getPostByEmail'
 import { getERC20TokenAPI } from '../../apis/getERC20Token'
+import { getNftByAddressAPI } from '../../apis/getNftByAddress';
 
 import dumyImg1 from '../../assets/img/mountain-world-1495832_1280.jpg'
 import dumyImg2 from '../../assets/img/mountains-4467436_1280.jpg'
@@ -22,6 +24,7 @@ const MyPage = () => {
   const walletAddress = useSelector((state) => state.address);
   const tokenCount = useSelector((state) => state.token_amount);
   const ethCount = useSelector((state) => state.eth_amount);
+  const [nftArr, setNftArr] = useState(null);
 
   const [proImg, setImg] = useState(null)
   const [postArr, setPostArr] = useState(null)
@@ -58,16 +61,32 @@ const MyPage = () => {
         console.log('토큰 잔액액 받아오기 실패');
       } else{
         console.log('토큰 잔액액 정보', responseData);
-        setPostArr(responseData)
+        dispatch(setTokenAmount(responseData.data.balance))
       }
     })
   }
 
+  function getAllNft(){
+    getNftByAddressAPI(walletAddress, (error, responseData) => {
+      if (error) {
+        console.log('주소 NFT 받아오기 실패');
+      } else {
+        console.log('주소 NFT 정보 my', responseData.nftList);
+        setNftArr(responseData.nftList);
+      }
+    });
+  }
+
   useEffect(() => {
     getUser()
-    //getERC20Token()
+    getERC20Token()
     getPostEmail()
+    getAllNft()
     
+  },[])
+
+  useEffect(() => {
+    //
   },[])
 
   const InfoArr = [[dumyImg1,"Blue sky and green mountains", "gokite227", "2023.07.06"],
@@ -114,13 +133,9 @@ const MyPage = () => {
       <div className="my-nfts-section">
         <h2>my NFT</h2>
         <div className="imgGrid">
-        {
-            InfoArr.map((info, i) => {
-              return(
-                <NftImg PostInfo={info} key={i}/>
-              )
-            })
-          }
+        {nftArr ? nftArr.map((info, i) => {
+            return <NftImg PostInfo={info.tokenURI} key={i} />;
+          }) : <></>}
         </div>
       </div>
     </div>

@@ -19,6 +19,7 @@ const Nft = () => {
   const [nftPrice, setNftPrice] = useState(null);
   const [buynft, setBuyNft] = useState(null);
 
+
   function getAllNfts() {
     getAllNftAPI((error, responseData) => {
       if (error) {
@@ -112,7 +113,7 @@ const Nft = () => {
         <div className={styles.Postimg}>
           {nftArr ? (
             nftArr.map((info, i) => {
-              return <NftImg PostInfo={info.tokenURI} key={i} />;
+              return <Link to={`/nftdetail/${info.tokenId}`}><NftImg PostInfo={info.tokenURI} key={i} /></Link>;
             })
           ) : (
             <></>

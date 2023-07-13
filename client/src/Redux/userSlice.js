@@ -39,10 +39,11 @@ const userSlice = createSlice({
     },
     setTokenAmount: (state, action) => {
       state.token_amount = action.payload;
-      //console.log('토큰잔액', state.token_amount)
+      console.log('토큰잔액', state.token_amount)
     },
     setEthAmount: (state, action) => {
       state.eth_amount = action.payload;
+      console.log('이더 잔액', state.eth_amount)
     },
     setProfileImg: (state, action) => {
       state.profileImg = action.payload;

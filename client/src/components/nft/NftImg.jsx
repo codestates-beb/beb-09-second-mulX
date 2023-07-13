@@ -8,13 +8,17 @@ const NftImg = ({ PostInfo }) => {
   useEffect(() => {
     fetch(PostInfo)
       .then(response => response.json())
-      .then(jsonData => setData(jsonData));
-    const url = data? data.image.replace('ipfs://', 'https://ipfs.io/ipfs/') : null
-    console.log(url)
-    console.log("image", imgUrl)
-    setImgUrl(url)
-    console.log(data)
+      .then(jsonData => {
+        setData(jsonData);
+        const url = jsonData ? jsonData.image.replace('ipfs://', 'https://ipfs.io/ipfs/') : null;
+        setImgUrl(url);
+      });
   }, []);
+
+  useEffect(() => {
+    console.log("image", imgUrl);
+    // imgUrl을 사용하는 다른 로직 실행
+  }, [imgUrl]);
 
   return (
     <div className={styles.NftContainer}>

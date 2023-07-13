@@ -1,25 +1,32 @@
 import React, { useState } from 'react';
 import '../../assets/css/faucet.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { faucetAPI } from '../../apis/faucet';
+import { setEthAmount } from '../../Redux/userSlice';
 
 const Faucet = () => {
-  const [walletAddress, setWalletAddress] = useState('');
+  const useremail = useSelector((state) => state.email);
   const [faucetFailure, setFaucetFailure] = useState(null);
+  const dispatch = useDispatch();
 
-  const validateFaucetFailure = (error) => {
-    if (error.response.status === 400) {
-      setFaucetFailure('지갑 주소를 입력해주세요.');
-    } else if (error.response.status === 500) {
-      setFaucetFailure('지갑 주소를 확인해주세요.');
-    } else {
-      setFaucetFailure('알 수 없는 오류가 발생했습니다.');
-    }
-  };
+  function faucet(){
+    faucetAPI(useremail, (error, responseData)=>{
+      if (error) {
+        console.log('테스트 이더 실패');
+      } else {
+        console.log('테스트 이더 성공', responseData)
+        console.log('테스트 이더 성공', responseData.data.balance)
+        dispatch(setEthAmount(responseData.data.balance))
+      }
+    })
+  }
 
-  const handleSendCoins = () => {
+  const handleSendCoins = (e) => {
+    e.preventDefault();
     // 코인을 보내는 로직을 작성하세요.
     // 예: API 호출 등
-
-    console.log(`Sending coins to ${walletAddress}`);
+    faucet()
+    //console.log(`Sending coins to ${walletAddress}`);
     // 코인 전송 완료 메시지를 표시하는 등의 추가 작업을 수행할 수 있습니다.
   };
 
@@ -30,8 +37,6 @@ const Faucet = () => {
         <form onSubmit={handleSendCoins} className='faucet-form'>
           <label htmlFor="wallet-address">지갑 주소</label>
           <button type="submit">Send mulX</button>
-          {faucetFailure && <div className="failure-message">{validateFaucetFailure}</div>}
-          {walletAddress.length > 0 && !faucetFailure && <div className="success-message">성공했습니다.</div>}
         </form>
       </div>
     </div>

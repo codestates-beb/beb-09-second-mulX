@@ -25,9 +25,9 @@ function Layout() {
   useEffect(() => {
     if (location.pathname === '/' || location.pathname === '/login' || location.pathname === '/signup') {
       setPage('orange');
-    } else if (location.pathname === '/post' || location.pathname === '/postdetail' || location.pathname === '/nft' || location.pathname === '/nftdetail' || location.pathname === '/mypage') {
+    } else if (location.pathname === '/post' || location.pathname === '/postdetail/:id' || location.pathname === '/nft' || location.pathname === '/nftdetail/:id' || location.pathname === '/mypage') {
       setPage('white');
-    } else if(location.pathname === "/postform" ||location.pathname === "/mintnft"){
+    } else if(location.pathname === "/postform" ||location.pathname === "/mintnft" ||location.pathname === "/faucet" ||location.pathname === "/transfer"){
       setPage('black')
     }
   }, [location]);
@@ -45,7 +45,7 @@ function Layout() {
         <Route path ="/mypage" element={<MyPage />} />
         <Route path ="/mintnft" element={<MintNFT />} />
         <Route path ="/nft" element={<Nft />} />
-        <Route path ="/nftdetail" element={<NftDetail />} />
+        <Route path ="/nftdetail/:id" element={<NftDetail />} />
         <Route path ="/faucet" element={<Faucet />} />
         <Route path ="/transfer" element={<Transfer />} />
       </Routes>
