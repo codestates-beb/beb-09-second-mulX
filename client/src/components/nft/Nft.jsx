@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import styles from '../../assets/css/Post.module.css';
 import NftImg from './NftImg';
 import { getAllNftAPI } from '../../apis/getAllNft';
+import { getNftByAddressAPI } from '../../apis/getNftByAddress';
 
 import dumyImg1 from '../../assets/img/mountain-world-1495832_1280.jpg';
 import dumyImg2 from '../../assets/img/mountains-4467436_1280.jpg';
@@ -11,6 +12,7 @@ import dumyImg4 from '../../assets/img/snow-6071475_1280.jpg';
 
 const Nft = () => {
   const [nftArr, setNftArr] = useState(null);
+  const [walletAddress, setWalletAddress] = useState('');
 
   const InfoArr = [
     [dumyImg1, 'Blue sky mountains', 'gokite227', 0.001],
@@ -35,9 +37,20 @@ const Nft = () => {
   function getAllNfts() {
     getAllNftAPI((error, responseData) => {
       if (error) {
-        console.log('게시글 받아오기 실패');
+        console.log('All NFT 받아오기 실패');
       } else {
-        console.log('게시글 정보', responseData);
+        console.log('All NFT 정보', responseData);
+        setNftArr(responseData);
+      }
+    });
+  }
+
+  function handleSearch() {
+    getNftByAddressAPI(walletAddress, (error, responseData) => {
+      if (error) {
+        console.log('주소 NFT 받아오기 실패');
+      } else {
+        console.log('주소 NFT 정보', responseData);
         setNftArr(responseData);
       }
     });
@@ -74,8 +87,16 @@ const Nft = () => {
         </Link>
       </div>
       <div className={styles.SearchContainer}>
-        <input type="text" placeholder="Search" className={styles.SearchInput} />
-        <button className={styles.SearchButton}>Search</button>
+        <input
+          type="text"
+          placeholder="Search"
+          value={walletAddress}
+          onChange={(e) => setWalletAddress(e.target.value)}
+          className={styles.SearchInput}
+        />
+        <button className={styles.SearchButton} onClick={handleSearch}>
+          Search
+        </button>
       </div>
       <div className={styles.PostContainer}>
         <div className={styles.Postimg}>
