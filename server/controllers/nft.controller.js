@@ -37,7 +37,7 @@ const storage = multer.diskStorage({
 // memoryStorage를 사용할 경우
 const multerStorage = multer.memoryStorage();
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage: multerStorage });
 
 const fileNameParser = (fileName) => Buffer.from(fileName, 'latin1').toString('utf8');
 
@@ -45,7 +45,7 @@ const storeNFT = async (req, res) => {
   const nftMetadata = req.body;
 
   const file = req.files.img[0];
-  const filePath = file.path;
+  const fileBuffer = file.buffer;
   const fileName = file.originalname;
 
   const nft = {
@@ -58,11 +58,11 @@ const storeNFT = async (req, res) => {
   };
 
   if (file.mimetype.startsWith('image/')) {
-    nft.image = new File([fs.readFileSync(filePath)], fileName, {
+    nft.image = new File([fileBuffer], fileName, {
       type: file.mimetype,
     });
   } else {
-    nft.image = new Blob([fs.readFileSync(filePath)], { type: file.mimetype });
+    nft.image = new Blob([fileBuffer], { type: file.mimetype });
   }
 
   const client = new NFTStorage({ token: API_KEY });
@@ -167,6 +167,26 @@ module.exports = {
     } catch (error) {
       //console.log(error);
       res.status(500).json({ error: 'Failed to find owner NFTs.' });
+    }
+  },
+
+  findNftsTokenId: async (req, res) => {
+    try {
+      const { tokenId } = req.params;
+
+      const nftTokenData = await MulX721Contract.getNftByTokenId(tokenId);
+      //console.log(nftTokenData);
+
+      const serializedNftTokenData = {
+        tokenId: nftTokenData[0].toString(),
+        tokenURI: nftTokenData[1],
+      };
+
+      res.status(200).json({ nftList: serializedNftTokenData });
+      //res.status(200).json('test');
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ error: 'Failed to find NFT of tokenId.' });
     }
   },
 

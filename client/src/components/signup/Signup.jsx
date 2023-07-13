@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Link ,useNavigate } from 'react-router-dom';
 import '../../assets/css/signup.css';
-import { signUpAPI } from '../../apis/singUp';
+import { signUpAPI } from '../../apis/signUp';
 
 const Signup = () => {
   const [useremail, setUseremail] = useState('');

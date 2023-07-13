@@ -13,12 +13,12 @@ const MainPostImg = ({ PostInfo, idx }) => {
       <div className={styles.PostContainer}>
         <div className={styles.PostInfo}>
         
-          <span className={styles.write}>{PostInfo[2]}</span>
-          <h3 className={styles.title}>{PostInfo[1]}</h3>
-          <span className={styles.day}>{PostInfo[3]}</span>
+          <span className={styles.write}>{PostInfo.email}</span>
+          <h3 className={styles.title}>{PostInfo.title}</h3>
+          <span className={styles.day}>{PostInfo.createdAt}</span>
           
         </div>
-        <img src={PostInfo[0]} className={styles.PostImg} alt="Post Image" />
+        <img src={PostInfo.post_img} className={styles.PostImg} alt="Post Image" />
       </div>
 
   );

@@ -21,6 +21,7 @@ contract MulX721 is ERC721URIStorage, Ownable {
     mapping(uint256 => string) public metadataURIs;
     mapping(uint256 => uint256) public NftPrice;
     mapping(uint256 => address) private _tokenApprovals;
+    mapping(uint256 => NftTokenData) public nftTokens;
 
     constructor() payable ERC721("MyNFTs", "MNFT") {
         nftFee = 1e17; // 0.1 MulX Mint fee
@@ -204,5 +205,14 @@ contract MulX721 is ERC721URIStorage, Ownable {
         uint256 _tokenId
     ) internal virtual override {
         _tokenApprovals[_tokenId] = _approved;
+    }
+
+    function getNftByTokenId(
+        uint256 _tokenId
+    ) public view returns (NftTokenData memory) {
+        string memory nftTokenURI = tokenURI(_tokenId);
+        NftTokenData memory nftTokenData = NftTokenData(_tokenId, nftTokenURI);
+
+        return nftTokenData;
     }
 }
