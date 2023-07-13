@@ -4,6 +4,7 @@ import styles from '../../assets/css/Post.module.css';
 import NftImg from './NftImg';
 import { getAllNftAPI } from '../../apis/getAllNft';
 import { getNftByAddressAPI } from '../../apis/getNftByAddress';
+import { getNftPriceAPI } from '../../apis/getNftPrice';
 
 import dumyImg1 from '../../assets/img/mountain-world-1495832_1280.jpg';
 import dumyImg2 from '../../assets/img/mountains-4467436_1280.jpg';
@@ -13,6 +14,7 @@ import dumyImg4 from '../../assets/img/snow-6071475_1280.jpg';
 const Nft = () => {
   const [nftArr, setNftArr] = useState(null);
   const [walletAddress, setWalletAddress] = useState('');
+  const [nftPrice, setNftPrice] = useState(null);
 
   const InfoArr = [
     [dumyImg1, 'Blue sky mountains', 'gokite227', 0.001],
@@ -56,6 +58,18 @@ const Nft = () => {
     });
   }
 
+  let tokenId = null; // test  tokenId = '1';
+  function getNftPrice() {
+    getNftPriceAPI(tokenId, (error, responseData) => {
+      if (error) {
+        console.log('Nft 가격 받아오기 실패');
+      } else {
+        console.log('Nft 가격정보', responseData);
+        setNftPrice(responseData);
+      }
+    });
+  }
+
   const postsPerPage = 12; // 한 페이지에 보여줄 포스트 수
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
 
@@ -76,6 +90,7 @@ const Nft = () => {
 
   useEffect(() => {
     getAllNfts();
+    getNftPrice(tokenId);
   }, []);
 
   return (
