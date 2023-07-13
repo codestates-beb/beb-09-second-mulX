@@ -7,6 +7,7 @@ import PostImg from '../post/PostImg'
 
 import { getUserAPI } from '../../apis/userfind'
 import { getPostByEmailAPI } from '../../apis/getPostByEmail'
+import { getERC20TokenAPI } from '../../apis/getERC20Token'
 
 import dumyImg1 from '../../assets/img/mountain-world-1495832_1280.jpg'
 import dumyImg2 from '../../assets/img/mountains-4467436_1280.jpg'
@@ -51,9 +52,22 @@ const MyPage = () => {
     })
   }
 
+  function getERC20Token(){
+    getERC20TokenAPI(walletAddress, (error, responseData) => {
+      if(error){
+        console.log('토큰 잔액액 받아오기 실패');
+      } else{
+        console.log('토큰 잔액액 정보', responseData);
+        setPostArr(responseData)
+      }
+    })
+  }
+
   useEffect(() => {
     getUser()
+    //getERC20Token()
     getPostEmail()
+    
   },[])
 
   const InfoArr = [[dumyImg1,"Blue sky and green mountains", "gokite227", "2023.07.06"],
@@ -83,6 +97,9 @@ const MyPage = () => {
               <div>Eth : {ethCount}</div>
             </div>
           </div>
+        </div>
+        <div className='transfer'>
+          <Link to="/transfer" className='transferBtn'>Send Tokens</Link>
         </div>
       </div>
       
