@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../../assets/css/Post.module.css';
 import NftImg from './NftImg';
+import { getAllNftAPI } from '../../apis/getAllNft';
 
 import dumyImg1 from '../../assets/img/mountain-world-1495832_1280.jpg';
 import dumyImg2 from '../../assets/img/mountains-4467436_1280.jpg';
@@ -9,25 +10,38 @@ import dumyImg3 from '../../assets/img/path-4353699_1280.jpg';
 import dumyImg4 from '../../assets/img/snow-6071475_1280.jpg';
 
 const Nft = () => {
+  const [nftArr, setNftArr] = useState(null);
+
   const InfoArr = [
-    [dumyImg1,"Blue sky mountains", "gokite227", 0.001],
-                    [dumyImg2, "River and mountain", "sjlee80", 0.02],
-                    [dumyImg3, "mountain trail", "stcr96", 0.003],
-                    [dumyImg4, "Snowy mountain", "codex1928", 0.1],
-                    [dumyImg1,"Blue sky mountains", "gokite227", 0.001],
-                    [dumyImg2, "River and mountain", "sjlee80", 0.02],
-                    [dumyImg3, "mountain trail", "stcr96", 0.003],
-                    [dumyImg4, "Snowy mountain", "codex1928", 0.1],
-                    [dumyImg1,"Blue sky mountains", "gokite227", 0.001],
-                    [dumyImg2, "River and mountain", "sjlee80", 0.02],
-                    [dumyImg3, "mountain trail", "stcr96", 0.003],
-                    [dumyImg4, "Snowy mountain", "codex1928", 0.1],
-                    [dumyImg1,"Blue sky mountains", "gokite227", 0.001],
-                    [dumyImg2, "River and mountain", "sjlee80", 0.02],
-                    [dumyImg3, "mountain trail", "stcr96", 0.003],
-                    [dumyImg4, "Snowy mountain", "codex1928", 0.1],
+    [dumyImg1, 'Blue sky mountains', 'gokite227', 0.001],
+    [dumyImg2, 'River and mountain', 'sjlee80', 0.02],
+    [dumyImg3, 'mountain trail', 'stcr96', 0.003],
+    [dumyImg4, 'Snowy mountain', 'codex1928', 0.1],
+    [dumyImg1, 'Blue sky mountains', 'gokite227', 0.001],
+    [dumyImg2, 'River and mountain', 'sjlee80', 0.02],
+    [dumyImg3, 'mountain trail', 'stcr96', 0.003],
+    [dumyImg4, 'Snowy mountain', 'codex1928', 0.1],
+    [dumyImg1, 'Blue sky mountains', 'gokite227', 0.001],
+    [dumyImg2, 'River and mountain', 'sjlee80', 0.02],
+    [dumyImg3, 'mountain trail', 'stcr96', 0.003],
+    [dumyImg4, 'Snowy mountain', 'codex1928', 0.1],
+    [dumyImg1, 'Blue sky mountains', 'gokite227', 0.001],
+    [dumyImg2, 'River and mountain', 'sjlee80', 0.02],
+    [dumyImg3, 'mountain trail', 'stcr96', 0.003],
+    [dumyImg4, 'Snowy mountain', 'codex1928', 0.1],
     // Add more post data here...
   ];
+
+  function getAllNfts() {
+    getAllNftAPI((error, responseData) => {
+      if (error) {
+        console.log('게시글 받아오기 실패');
+      } else {
+        console.log('게시글 정보', responseData);
+        setNftArr(responseData);
+      }
+    });
+  }
 
   const postsPerPage = 12; // 한 페이지에 보여줄 포스트 수
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
@@ -46,6 +60,10 @@ const Nft = () => {
   const totalPages = Math.ceil(InfoArr.length / postsPerPage);
   // 페이지 번호 배열 생성
   const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+  useEffect(() => {
+    getAllNfts();
+  }, []);
 
   return (
     <div className={styles.back}>
