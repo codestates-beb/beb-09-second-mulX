@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../../assets/css/Post.module.css';
 import PostImg from './PostImg';
-// import { getAllPostAPI } from '../apis/getAllPost'
+import { getAllPostAPI } from '../../apis/getAllPost'
+import { getPostByEmailAPI } from '../../apis/getPostByEmail'
 
 import dumyImg1 from '../../assets/img/mountain-world-1495832_1280.jpg';
 import dumyImg2 from '../../assets/img/mountains-4467436_1280.jpg';
@@ -10,21 +11,8 @@ import dumyImg3 from '../../assets/img/path-4353699_1280.jpg';
 import dumyImg4 from '../../assets/img/snow-6071475_1280.jpg';
 
 const Post = () => {
-  const InfoArr = [
-    [dumyImg1, "Blue sky and green mountains", "gokite227", "2023.07.06"],
-    [dumyImg2, "River and mountain with clear water", "sjlee80", " 2023.07.05"],
-    [dumyImg3, "There is a mountain at the end of the trail", "stcr96", "2023.07.04"],
-    [dumyImg4, "Snowy mountain wonders", "codex1928", "2023.07.03"],
-    [dumyImg1, "Blue sky and green mountains", "gokite227", "2023.07.06"],
-    [dumyImg2, "River and mountain with clear water", "sjlee80", "2023.07.05"],
-    [dumyImg3, "There is a mountain at the end of the trail", "stcr96", "2023.07.04"],
-    [dumyImg4, "Snowy mountain wonders", "codex1928", "2023.07.03"],
-    [dumyImg1, "Blue sky and green mountains", "gokite227", "2023.07.06"],
-    [dumyImg2, "River and mountain with clear water", "sjlee80", "2023.07.05"],
-    [dumyImg3, "There is a mountain at the end of the trail", "stcr96", "2023.07.04"],
-    [dumyImg4, "Snowy mountain wonders", "codex1928", "2023.07.03"],
-    // Add more post data here...
-  ];
+  const [postArr, setPostArr] = useState(null)
+  const [search, setSearch] = useState('');
 
   const postsPerPage = 8; // 한 페이지에 보여줄 포스트 수
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
@@ -32,21 +20,37 @@ const Post = () => {
   // 현재 페이지에 해당하는 포스트 데이터 슬라이싱
   const startIndex = (currentPage - 1) * postsPerPage;
   const endIndex = startIndex + postsPerPage;
-  const currentPosts = InfoArr.slice(startIndex, endIndex);
+  const currentPosts = postArr? postArr.slice(startIndex, endIndex) : null ;
 
-  // function getAllPost() {
-  //   getAllPostAPI((error, responseData) => {
-  //     if (error) {
-  //       console.log('게시글 받아오기 실패');
-  //     } else {
-  //       console.log('회원 정보', responseData.data.profile_img);
-  //     }
-  //   });
+  function getAllPost() {
+    getAllPostAPI((error, responseData) => {
+      if (error) {
+        console.log('게시글 받아오기 실패');
+      } else {
+        console.log('게시글 정보', responseData);
+        setPostArr(responseData)
+        console.log(postArr[0].title)
+      }
+    });
+  }
+
+
+  useEffect(() => {
+    getAllPost()
+  },[])
+
+
+  // function getPostEmail(){
+  //   getPostByEmailAPI(())
   // }
 
-  // const onclickHandle = () => {
-  //   getAllPost()
-  // }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // 게시글 등록 처리 로직 작성
+    console.log('검색어 정보:', search);
+    // 필요한 API 호출 등을 수행할 수 있습니다.
+
+  };
 
   // 페이지 변경 함수
   const handlePageChange = (pageNumber) => {
@@ -54,7 +58,7 @@ const Post = () => {
   };
 
   // 전체 페이지 수 계산
-  const totalPages = Math.ceil(InfoArr.length / postsPerPage);
+  const totalPages = postArr? Math.ceil(postArr.length / postsPerPage) : null ;
   // 페이지 번호 배열 생성
   const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
 
@@ -66,15 +70,23 @@ const Post = () => {
           Posting
         </Link>
       </div>
-      <div className={styles.SearchContainer}>
-        <input type="text" placeholder="Search" className={styles.SearchInput} />
-        <button className={styles.SearchButton}>Search</button>
-      </div>
+      <form onSubmit={handleSubmit}>
+        <div className={styles.SearchContainer}>
+          <input 
+            type="text" 
+            placeholder="Search" 
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className={styles.SearchInput}
+            />
+          <button type="submit" className={styles.SearchButton}>Search</button>
+        </div>
+      </form>
       <div className={styles.PostContainer}>
         <div className={styles.Postimg}>
-          {currentPosts.map((info, i) => {
-            return <Link to={`/postdetail/${i}`}><PostImg PostInfo={info} key={i} /></Link>;
-          })}
+          {postArr? postArr.map((info) => {
+            return <Link to={`/postdetail/${info.post_id}`}><PostImg PostInfo={info} key={info.post_id} /></Link>;
+          }): <></>}
         </div>
       </div>
       <div className={styles.Pagination}>
