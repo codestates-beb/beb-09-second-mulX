@@ -19,14 +19,11 @@ const Nft = () => {
   const [nftPrice, setNftPrice] = useState(null);
   const [buynft, setBuyNft] = useState(null);
 
-  
-
   function getAllNfts() {
     getAllNftAPI((error, responseData) => {
       if (error) {
         console.log('All NFT 받아오기 실패');
       } else {
-
         console.log('nft 정보', responseData.nftList);
         setNftArr(responseData.nftList);
       }
@@ -44,8 +41,8 @@ const Nft = () => {
     });
   }
 
-  let tokenId = null; // test  tokenId = '1'; 입력받아야 함
-  function getNftPrice() {
+  let tokenId = ''; // test  tokenId = '1'; 입력받아야 함
+  function getNftPrice(tokenId) {
     getNftPriceAPI(tokenId, (error, responseData) => {
       if (error) {
         console.log('Nft 가격 받아오기 실패');
@@ -56,9 +53,9 @@ const Nft = () => {
     });
   }
 
-  const useAddress = useSelector((state) => state.address);
-  function buyNft(useAddress) {
-    buyNftAPI(useAddress, tokenId, (error, responseData) => {
+  const userAddress = useSelector((state) => state.address);
+  function buyNft(userAddress, tokenId) {
+    buyNftAPI(userAddress, tokenId, (error, responseData) => {
       if (error) {
         console.log('Nft 구매 실패');
       } else {
@@ -74,7 +71,7 @@ const Nft = () => {
   // 현재 페이지에 해당하는 포스트 데이터 슬라이싱
   const startIndex = (currentPage - 1) * postsPerPage;
   const endIndex = startIndex + postsPerPage;
-  const currentPosts = nftArr? nftArr.slice(startIndex, endIndex):null;
+  const currentPosts = nftArr ? nftArr.slice(startIndex, endIndex) : null;
 
   // 페이지 변경 함수
   const handlePageChange = (pageNumber) => {
@@ -82,7 +79,7 @@ const Nft = () => {
   };
 
   // 전체 페이지 수 계산
-  const totalPages = nftArr? Math.ceil(nftArr.length / postsPerPage): null;
+  const totalPages = nftArr ? Math.ceil(nftArr.length / postsPerPage) : null;
   // 페이지 번호 배열 생성
   const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
 
@@ -113,9 +110,13 @@ const Nft = () => {
       </div>
       <div className={styles.PostContainer}>
         <div className={styles.Postimg}>
-          {nftArr ? nftArr.map((info, i) => {
-            return <NftImg PostInfo={info.tokenURI} key={i} />;
-          }) : <></>}
+          {nftArr ? (
+            nftArr.map((info, i) => {
+              return <NftImg PostInfo={info.tokenURI} key={i} />;
+            })
+          ) : (
+            <></>
+          )}
         </div>
       </div>
       <div className={styles.Pagination}>
