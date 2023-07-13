@@ -53,6 +53,7 @@ const MintNFT = () => {
     console.log('NFT 정보:', nftItem, mintNftName, mintNftInfo, mintNftPrice, mintNftTheme);
     // 필요한 API 호출 등을 수행할 수 있습니다.
     mintNft()
+    
   };
 
   // file upload
