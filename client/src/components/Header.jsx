@@ -69,7 +69,9 @@ const Header = ( {path} ) => {
         <Link to="/nft" className={style.auth_el}>
           NFT
         </Link>
-        <div className={style.auth_el}>Faucet</div>
+        <Link to="/faucet" className={style.auth_el}>
+          Faucet
+        </Link>
       </div>
       <div className={style.auth}>
         {!isLoggedIn && (

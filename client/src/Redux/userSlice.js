@@ -45,7 +45,7 @@ const userSlice = createSlice({
     },
     setProfileImg: (state, action) => {
       state.profileImg = action.payload;
-      console.log('프로필 이미지 :', state.profileImg)
+      //console.log('프로필 이미지 :', state.profileImg)
     },
   },
 });

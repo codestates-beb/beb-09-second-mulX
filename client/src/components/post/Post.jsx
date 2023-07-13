@@ -4,11 +4,8 @@ import styles from '../../assets/css/Post.module.css';
 import PostImg from './PostImg';
 import { getAllPostAPI } from '../../apis/getAllPost'
 import { getPostByEmailAPI } from '../../apis/getPostByEmail'
+import { getPostByNicknameAPI } from '../../apis/getPostByNickname.js'
 
-import dumyImg1 from '../../assets/img/mountain-world-1495832_1280.jpg';
-import dumyImg2 from '../../assets/img/mountains-4467436_1280.jpg';
-import dumyImg3 from '../../assets/img/path-4353699_1280.jpg';
-import dumyImg4 from '../../assets/img/snow-6071475_1280.jpg';
 
 const Post = () => {
   const [postArr, setPostArr] = useState(null)
@@ -50,12 +47,23 @@ const Post = () => {
     })
   }
 
+  function getPostByNickname(){
+    getPostByNicknameAPI(search,(error, responseData) => {
+      if(error){
+        console.log('닉네임 게시글 받아오기 실패');
+      } else{
+        console.log('닉네임 게시글 정보', responseData);
+        setPostArr(responseData)
+      }
+    })
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // 게시글 등록 처리 로직 작성
     console.log('검색어 정보:', search);
     // 필요한 API 호출 등을 수행할 수 있습니다.
-    getPostEmail()
+    getPostByNickname()
   };
 
   // 페이지 변경 함수

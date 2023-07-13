@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import '../../assets/css/postForm.css';
 import { useNavigate } from 'react-router-dom';
 import { postFormAPI } from '../../apis/postForm';
+import { ERC20RewardAPI } from '../../apis/ERC20Reward';
 import { useSelector } from 'react-redux';
 
 const PostForm = () => {
@@ -13,12 +14,25 @@ const PostForm = () => {
 
   const navigate = useNavigate();
 
+  function ERC20Reward(){
+    ERC20RewardAPI(useremail,(error,responseData)=>{
+      if (error) {
+        console.log('보상 실패');
+      } else {
+        console.log('보상 성공', responseData)
+      }
+    })
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // 게시글 등록 처리 로직 작성
     console.log('게시글 정보:', useremail, title, content, selectedImage);
     // 필요한 API 호출 등을 수행할 수 있습니다.
     postFormAPI(useremail, title, content, selectedImage);
+    if(selectedImage){
+      ERC20Reward()
+    }
     navigate('/post');
   };
 

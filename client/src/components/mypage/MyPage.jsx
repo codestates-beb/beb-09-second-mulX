@@ -1,8 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { setProfileImg } from '../../Redux/userSlice';
 import "../../assets/css/mypage.css";
-import styles from '../../assets/css/MainTitle.module.css';
 import PostImg from '../post/PostImg'
+
+import { getUserAPI } from '../../apis/userfind'
+import { getPostByEmailAPI } from '../../apis/getPostByEmail'
 
 import dumyImg1 from '../../assets/img/mountain-world-1495832_1280.jpg'
 import dumyImg2 from '../../assets/img/mountains-4467436_1280.jpg'
@@ -12,11 +16,45 @@ import NftImg from '../nft/NftImg';
 
 const MyPage = () => {
   const isLoggedIn = useSelector((state) => state.isLoggedIn)
+  const useremail = useSelector((state) => state.email)
   const userNickname = useSelector((state) => state.nickname);
-  const profileImg = useSelector((state) => state.profileImg);
   const walletAddress = useSelector((state) => state.address);
   const tokenCount = useSelector((state) => state.token_amount);
   const ethCount = useSelector((state) => state.eth_amount);
+
+  const [proImg, setImg] = useState(null)
+  const [postArr, setPostArr] = useState(null)
+
+  const dispatch = useDispatch();
+
+  function getUser() {
+    getUserAPI(useremail, (error, responseData) => {
+      if (error) {
+        console.log('회원 찾기 실패');
+      } else {
+        //console.log('회원 정보', responseData.data.profile_img);
+        //console.log(responseData.data.profile_img)
+        setImg(responseData.data.profile_img)
+        dispatch(setProfileImg(responseData.data.profile_img))
+      }
+    });
+  }
+
+  function getPostEmail(){
+    getPostByEmailAPI(useremail,(error, responseData) => {
+      if(error){
+        console.log('이메일 게시글 받아오기 실패');
+      } else{
+        console.log('이메일 게시글 정보', responseData);
+        setPostArr(responseData)
+      }
+    })
+  }
+
+  useEffect(() => {
+    getUser()
+    getPostEmail()
+  },[])
 
   const InfoArr = [[dumyImg1,"Blue sky and green mountains", "gokite227", "2023.07.06"],
                     [dumyImg2, "River and mountain with clear water", "sjlee80", " 2023.07.05"],
@@ -25,12 +63,14 @@ const MyPage = () => {
                     [dumyImg1,"Blue sky and green mountains", "gokite227", "2023.07.06"],
                     [dumyImg2, "River and mountain with clear water", "sjlee80", " 2023.07.05"]]
 
+  
+
 
   return (
     <div className="mypage-container">
       <div className="picture-section">
         <div className="profile-picture">
-            <img src={profileImg} alt="프로필 사진" />
+            <img src={proImg} alt="프로필 사진" />
         </div>
       </div>
       <div className="profile-section">
@@ -49,13 +89,9 @@ const MyPage = () => {
       <div className="my-posts-section">
         <h2>my Post</h2>
         <div className="imgGrid">
-          {
-            InfoArr.map((info, i) => {
-              return(
-                <PostImg PostInfo={info} key={i}/>
-              )
-            })
-          }
+          {postArr? postArr.map((info) => {
+            return <Link to={`/postdetail/${info.post_id}`}><PostImg PostInfo={info} key={info.post_id} /></Link>;
+          }): <></>}
         </div>
       </div>
       <div className="my-nfts-section">
