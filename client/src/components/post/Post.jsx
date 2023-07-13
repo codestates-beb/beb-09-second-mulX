@@ -40,14 +40,14 @@ const Post = () => {
 
 
   function getPostEmail(){
-    getPostByEmailAPI((search,(error, responseData) => {
+    getPostByEmailAPI(search,(error, responseData) => {
       if(error){
         console.log('이메일 게시글 받아오기 실패');
       } else{
         console.log('이메일 게시글 정보', responseData);
-        //setPostArr(responseData)
+        setPostArr(responseData)
       }
-    }))
+    })
   }
 
   const handleSubmit = (e) => {
