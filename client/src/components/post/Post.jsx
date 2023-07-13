@@ -29,7 +29,6 @@ const Post = () => {
       } else {
         console.log('게시글 정보', responseData);
         setPostArr(responseData)
-        console.log(postArr[0].title)
       }
     });
   }
@@ -40,16 +39,23 @@ const Post = () => {
   },[])
 
 
-  // function getPostEmail(){
-  //   getPostByEmailAPI(())
-  // }
+  function getPostEmail(){
+    getPostByEmailAPI((search,(error, responseData) => {
+      if(error){
+        console.log('이메일 게시글 받아오기 실패');
+      } else{
+        console.log('이메일 게시글 정보', responseData);
+        //setPostArr(responseData)
+      }
+    }))
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // 게시글 등록 처리 로직 작성
     console.log('검색어 정보:', search);
     // 필요한 API 호출 등을 수행할 수 있습니다.
-
+    getPostEmail()
   };
 
   // 페이지 변경 함수
