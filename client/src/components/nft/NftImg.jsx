@@ -16,19 +16,16 @@ const NftImg = ({ PostInfo }) => {
     console.log(data)
   }, []);
 
-  
   return (
     <div className={styles.NftContainer}>
       <div className={styles.PostInfo}>
-      
         <span className={styles.write}>{data? data.name : null}</span>
         <h3 className={styles.title}>{data? data.title : null}</h3>
         <span className={styles.day}>{data? data.category : null}</span>
-        
       </div>
       <img src={imgUrl} className={styles.NftImg} alt="Post Image" />
     </div>
-  )
-}
+  );
+};
 
-export default NftImg
+export default NftImg;
