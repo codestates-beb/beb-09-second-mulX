@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 const MintNFT = () => {
   const [mintNftPicture, setMintNftPicture] = useState('');
+  const [PictureUrl, setPictureUrl] = useState('');
   const [mintNftName, setMintNftName] = useState('');
   const [mintNftInfo, setMintNftInfo] = useState('');
   const [mintNftPrice, setMintNftPrice] = useState('');
@@ -15,14 +16,19 @@ const MintNFT = () => {
   const [checkFile, setCheckFile] = useState(0);            // 비디오(1)인지 이미지(0)인지 체크
   const [nftItem, setNftItem] = useState(null);
   const [nftItemUrl, setNftItemUrl] = useState(null);
-  const [loading, setLoading] = useState(false);  // Add this line
   const [modalTitle, setModalTitle] = useState(null)
   const userNickname = useSelector((state) => state.nickname);
   const walletAddress = useSelector((state) => state.address);
 
+  // const handlePictureChange = (e) => {
+  //   const file = e.target.files[0];
+  //   setMintNftPicture(file);
+  // };
   const handlePictureChange = (e) => {
-    const file = e.target.files[0];
-    setMintNftPicture(file);
+    if (e.target.files[0] !== undefined){
+      const file = e.target.files[0];
+      setMintNftPicture(file);
+    }
   };
 
   const handleNameChange = (e) => {
@@ -54,6 +60,7 @@ const MintNFT = () => {
     if (event.target.files[0] !== undefined) {
       // 업로드 한 파일 가져오기
       const file = event.target.files[0];
+      setPictureUrl(URL.createObjectURL(file));
       let maxSize = 100;
       let ipfsSize = 50;
 
@@ -87,12 +94,12 @@ const MintNFT = () => {
    function mintNft() {
     mintNftAPI(
       nftItem,
-      "Lecoo",
-      "rivers and mountains",
-      "rivers and mountains",
-      "mountain",
-      "2",
-      "0x4e438E153B456AaAEb1EEc15DF20D39fC0121EC4",
+      userNickname,
+      mintNftName,
+      mintNftInfo,
+      mintNftTheme,
+      mintNftPrice,
+      walletAddress,
       (error, responseData) => {
         if (error) {
           console.error('민팅 실패');
@@ -108,7 +115,7 @@ const MintNFT = () => {
       <h1>Mint NFT</h1>
       <form onSubmit={handleMintNFT} className="mint-nft-form">
         <label htmlFor="input-nft-picture" className="mint-nft-picture">
-          {mintNftPicture && <img src={mintNftPicture} alt="Preview" className="preview-image" />}
+          {PictureUrl && <img src={PictureUrl} alt="Preview" className="preview-image" />}
           <input
             type="file"
             id="input-nft-picture"

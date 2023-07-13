@@ -1,10 +1,10 @@
 import axios from 'axios';
 
-export async function mintNftAPI(img, nickname, title, description, category, price, userAddress, callback) {
+export async function mintNftAPI(img, nickName, title, description, category, price, userAddress, callback) {
   try {
     const formData = new FormData();
     formData.append('img', img);
-    formData.append('nickname', nickname);
+    formData.append('nickName', nickName);
     formData.append('title', title);
     formData.append('description', description);
     formData.append('category', category);
