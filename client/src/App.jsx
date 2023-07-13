@@ -14,6 +14,8 @@ import MyPage from './page/MyPagePage';
 import MintNFT from './page/MintNFTPage';
 import Nft from './components/nft/Nft';
 import NftDetail from './components/nft/NftDetail';
+import Faucet from './components/faucet/Faucet';
+import Transfer from './components/transfer/Transfer';
 
 
 function Layout() {
@@ -44,6 +46,8 @@ function Layout() {
         <Route path ="/mintnft" element={<MintNFT />} />
         <Route path ="/nft" element={<Nft />} />
         <Route path ="/nftdetail" element={<NftDetail />} />
+        <Route path ="/faucet" element={<Faucet />} />
+        <Route path ="/transfer" element={<Transfer />} />
       </Routes>
     </div>
   );
