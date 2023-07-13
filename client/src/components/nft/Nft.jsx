@@ -5,6 +5,8 @@ import NftImg from './NftImg';
 import { getAllNftAPI } from '../../apis/getAllNft';
 import { getNftByAddressAPI } from '../../apis/getNftByAddress';
 import { getNftPriceAPI } from '../../apis/getNftPrice';
+import { buyNftAPI } from '../../apis/buyNft';
+import { useSelector } from 'react-redux';
 
 import dumyImg1 from '../../assets/img/mountain-world-1495832_1280.jpg';
 import dumyImg2 from '../../assets/img/mountains-4467436_1280.jpg';
@@ -15,6 +17,7 @@ const Nft = () => {
   const [nftArr, setNftArr] = useState(null);
   const [walletAddress, setWalletAddress] = useState('');
   const [nftPrice, setNftPrice] = useState(null);
+  const [buynft, setBuyNft] = useState(null);
 
   const InfoArr = [
     [dumyImg1, 'Blue sky mountains', 'gokite227', 0.001],
@@ -58,7 +61,7 @@ const Nft = () => {
     });
   }
 
-  let tokenId = null; // test  tokenId = '1';
+  let tokenId = null; // test  tokenId = '1'; 입력받아야 함
   function getNftPrice() {
     getNftPriceAPI(tokenId, (error, responseData) => {
       if (error) {
@@ -66,6 +69,18 @@ const Nft = () => {
       } else {
         console.log('Nft 가격정보', responseData);
         setNftPrice(responseData);
+      }
+    });
+  }
+
+  const useAddress = useSelector((state) => state.address);
+  function buyNft(useAddress) {
+    buyNftAPI(useAddress, tokenId, (error, responseData) => {
+      if (error) {
+        console.log('Nft 구매 실패');
+      } else {
+        console.log('Nft 구매정보', responseData);
+        setBuyNft(responseData);
       }
     });
   }
@@ -90,7 +105,7 @@ const Nft = () => {
 
   useEffect(() => {
     getAllNfts();
-    getNftPrice(tokenId);
+    //getNftPrice(tokenId);
   }, []);
 
   return (
