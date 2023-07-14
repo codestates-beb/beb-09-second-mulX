@@ -9,5 +9,9 @@ module.exports = {
       url: 'http://127.0.0.1:8545',
       network_id: '*',
     },
+    sepolia: {
+      url: `https://sepolia.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      accounts: [process.env.PRIVATE_KEY],
+    },
   },
 };

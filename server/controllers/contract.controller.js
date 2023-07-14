@@ -3,7 +3,10 @@ const { ethers } = require('ethers');
 
 const MulX20 = require('../../smartContract/artifacts/contracts/MulX20.sol/MulX20.json');
 
-const provider = new ethers.JsonRpcProvider(process.env.GANACHE_URL);
+require('dotenv').config();
+
+//const provider = new ethers.JsonRpcProvider(process.env.GANACHE_URL);
+const provider = new ethers.JsonRpcProvider(process.env.ALLTHATNODE_URL);
 
 module.exports = {
   faucet: async (req, res) => {
