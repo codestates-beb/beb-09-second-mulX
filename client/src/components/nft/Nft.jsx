@@ -19,7 +19,6 @@ const Nft = () => {
   const [nftPrice, setNftPrice] = useState(null);
   const [buynft, setBuyNft] = useState(null);
 
-
   function getAllNfts() {
     getAllNftAPI((error, responseData) => {
       if (error) {
@@ -59,9 +58,11 @@ const Nft = () => {
     buyNftAPI(userAddress, tokenId, (error, responseData) => {
       if (error) {
         console.log('Nft 구매 실패');
+        alert('NFT purchase failed.');
       } else {
         console.log('Nft 구매정보', responseData);
         setBuyNft(responseData);
+        alert('NFT purchase succeeded.');
       }
     });
   }
@@ -113,7 +114,11 @@ const Nft = () => {
         <div className={styles.Postimg}>
           {nftArr ? (
             nftArr.map((info, i) => {
-              return <Link to={`/nftdetail/${info.tokenId}`}><NftImg PostInfo={info.tokenURI} key={i} /></Link>;
+              return (
+                <Link to={`/nftdetail/${info.tokenId}`}>
+                  <NftImg PostInfo={info.tokenURI} key={i} />
+                </Link>
+              );
             })
           ) : (
             <></>
