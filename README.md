@@ -1,3 +1,4 @@
+
 # beb-09-second-03
 
 # 환경설정
@@ -60,3 +61,4 @@ npx hardhat run scrips/deploy.js --network sepolia
 //계약배포 후 터미널의 Contract 주소를 server 폴더의 .env file에 기입
 // MULX20_CONTRACT_ADDRESS, MULX721_CONTRACT_ADDRESS, INFURA_API_KEY, Contract owner 지갑 private_key
 // 현재 코드는 서버에서 all that node api 사용
+
