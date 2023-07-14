@@ -1,0 +1,55 @@
+.faucet-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../img/mountain-6815304_1280.jpg");
+  width: 100vw;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 40px;
+}
+
+.faucet-container > h1 {
+  width: 100%;
+  text-align: center;
+  color: white;
+  margin-bottom: 60px;
+}
+
+.faucet-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 800px;
+  max-width: 100%;
+  background-color: #ccccccce;
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 100px;
+}
+
+.faucet-form > label {
+  display: block;
+  width: 100%;
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.faucet-form > button {
+  width: 40%;
+  color: white;
+  background-color: #7d7c7c;
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  padding: 10px;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 40px;
+  cursor: pointer;
+}
