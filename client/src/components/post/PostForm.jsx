@@ -16,15 +16,17 @@ const PostForm = () => {
 
   const navigate = useNavigate();
 
-  function ERC20Reward(){
-    ERC20RewardAPI(useremail,(error,responseData)=>{
+  function ERC20Reward() {
+    ERC20RewardAPI(useremail, (error, responseData) => {
       if (error) {
         console.log('보상 실패');
+        alert('Post & reward failed');
       } else {
-        console.log('보상 성공', responseData)
-        dispatch(setTokenAmount(responseData.data.balance))
+        console.log('보상 성공', responseData);
+        dispatch(setTokenAmount(responseData.data.balance));
+        alert('Post & reward success');
       }
-    })
+    });
   }
 
   const handleSubmit = (e) => {
@@ -33,9 +35,9 @@ const PostForm = () => {
     console.log('게시글 정보:', useremail, title, content, selectedImage);
     // 필요한 API 호출 등을 수행할 수 있습니다.
     postFormAPI(useremail, title, content, selectedImage);
-    
-      ERC20Reward()
-    
+
+    ERC20Reward();
+
     //navigate('/post');
   };
 
@@ -72,7 +74,9 @@ const PostForm = () => {
           ></textarea>
         </div>
         <div className="form-field">
-          <button type="button" onClick={handleFileClick}>사진 선택하기</button>
+          <button type="button" onClick={handleFileClick}>
+            사진 선택하기
+          </button>
           <input
             type="file"
             id="image"
@@ -86,6 +90,6 @@ const PostForm = () => {
       </form>
     </div>
   );
-}
+};
 
 export default PostForm;
