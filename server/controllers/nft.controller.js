@@ -10,7 +10,8 @@ const { Users, Imgs } = require('../models');
 require('dotenv').config();
 
 const API_KEY = process.env.NFT_STORAGE_API_KEY;
-const provider = new ethers.JsonRpcProvider(process.env.GANACHE_URL);
+//const provider = new ethers.JsonRpcProvider(process.env.GANACHE_URL);
+const provider = new ethers.JsonRpcProvider(process.env.ALLTHATNODE_URL);
 
 const MulX20ContractAddress = process.env.MULX20_CONTRACT_ADDRESS;
 const MulX721ContractAddress = process.env.MULX721_CONTRACT_ADDRESS;
@@ -165,7 +166,7 @@ module.exports = {
       res.status(200).json({ nftList: serializedNftList });
       //res.status(200).json('test');
     } catch (error) {
-      //console.log(error);
+      console.log(error);
       res.status(500).json({ error: 'Failed to find owner NFTs.' });
     }
   },
